@@ -25,7 +25,9 @@
                 <tr>
                     <td>@employee.Id</td>
                     <td>@employee.Name</td>
-                    <td>@employee.LastName</td>
+                    <td>
+                        <a href = "/Home/EmployeeDetails/@employee.Id">@employee.LastName</a>
+                    </td>
                     <td>@employee.Patronymic</td>
                     <td>@employee.Age</td>
                 </tr>
