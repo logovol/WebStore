@@ -1,12 +1,21 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // конфигурирование основных частей (сервисов)
-//
 
 // настройка контроллеров с представлениями
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// подключение страницы отладчика, не будет работать, когда проект будет на хостинге
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseStaticFiles();
+
+app.UseRouting();
 
 // из файла конфигурации appsettings.json
 // var greetings = app.Configuration["ServerGreetings"];
