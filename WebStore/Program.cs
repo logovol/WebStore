@@ -1,22 +1,23 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// конфигурирование основных частей (сервисов)
+// РєРѕРЅС„РёРіСѓСЂРёСЂРѕРІР°РЅРёРµ РѕСЃРЅРѕРІРЅС‹С… С‡Р°СЃС‚РµР№ (СЃРµСЂРІРёСЃРѕРІ)
+//
 
-// настройка контроллеров с представлениями
+// РЅР°СЃС‚СЂРѕР№РєР° РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ СЃ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏРјРё
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// из файла конфигурации appsettings.json
+// РёР· С„Р°Р№Р»Р° РєРѕРЅС„РёРіСѓСЂР°С†РёРё appsettings.json
 // var greetings = app.Configuration["ServerGreetings"];
 // app.MapGet("/", () => "Hello World!");
-// таким образом можно изменить информацию динамически
+// С‚Р°РєРёРј РѕР±СЂР°Р·РѕРј РјРѕР¶РЅРѕ РёР·РјРµРЅРёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ РґРёРЅР°РјРёС‡РµСЃРєРё
 app.MapGet("/greetings", () => app.Configuration["ServerGreetings"]);
 
-// маршрут автоматически
+// РјР°СЂС€СЂСѓС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
 // app.MapDefaultControllerRoute();
 
-// создание маршрутка с настройками
+// СЃРѕР·РґР°РЅРёРµ РјР°СЂС€СЂСѓС‚РєР° СЃ РЅР°СЃС‚СЂРѕР№РєР°РјРё
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
