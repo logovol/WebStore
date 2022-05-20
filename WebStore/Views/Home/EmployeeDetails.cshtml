@@ -1,19 +1,6 @@
 ﻿@model WebStore.Models.Employee
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>EmployeeDetails</title>
-</head>
-<body>
-
-<div>
+<div class="container">
     <h4>Employee</h4>
     <hr />
     <dl class="row">
@@ -49,11 +36,9 @@
         </dd>
     </dl>
 </div>
-<div>
+<div class="container">
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     @Html.ActionLink("К списку", "Employees");
     <!-- <a asp-action="Index">Back to List</a> -->
     @*<a href = "/Home/Employees">Back to List</a>*@ 
 </div>
-</body>
-</html>
