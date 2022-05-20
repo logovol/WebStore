@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Catalog\Partial\" />
+    <Folder Include="Views\Shared\Partial\MasterData\" />
   </ItemGroup>
 
 </Project>
