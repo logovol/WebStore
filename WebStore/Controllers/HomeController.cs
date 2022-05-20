@@ -37,5 +37,9 @@ namespace WebStore.Controllers
             return View(employee);
             
         }
+
+        public IActionResult Contacts() => View();
+
+        public IActionResult Error404() => View();
     }
 }
