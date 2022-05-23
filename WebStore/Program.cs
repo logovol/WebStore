@@ -1,3 +1,4 @@
+using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // конфигурирование основных частей (сервисов)
 
 // настройка контроллеров с представлениями
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt =>
+    {
+        // добавление нашего соглашения в нашу модель
+        opt.Conventions.Add(new TestConvention());
+    });
 
 var app = builder.Build();
 
