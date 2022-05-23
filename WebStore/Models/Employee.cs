@@ -13,5 +13,7 @@ namespace WebStore.Models
         public string LastName { get; set; }
         public string Patronymic { get; set; }
         public int Age { get; set; }
+
+        public override string ToString() => $"(id:{Id}){LastName}{Name}{Patronymic} - age:{Age}";
     }
 }
