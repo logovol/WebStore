@@ -67,5 +67,34 @@ public class EmployeesController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public IActionResult Delete(int Id) => View();
+    public IActionResult Delete(int Id)
+    {
+        // опасно, взломают и удалят всех сотрудников
+        // операции удаления никогда не делаются с помощью GET запросов
+        //_Employees.Delete(Id);                    // так не делать
+        //return RedirectToAction(nameof(Index));   // так не делать
+
+        var employee = _Employees.GetById(Id);
+        if (employee is null)
+            return NotFound();
+
+        var view_model = new EmployeeViewModel()
+        {
+            Id = employee.Id,
+            Name = employee.Name,
+            LastName = employee.LastName,
+            Patronymic = employee.Patronymic,
+            Age = employee.Age,
+        };
+
+        return View(view_model);
+    }
+
+    public IActionResult DeleteConfirmed(int Id)
+    {
+        if (!_Employees.Delete(Id))
+            return NotFound();
+
+        return RedirectToAction(nameof(Index));
+    }
 }

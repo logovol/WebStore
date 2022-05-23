@@ -3,7 +3,9 @@
 <div class="container">
     <h3>Сотрудники</h3>
 
-    <table class="table">
+    @if (Model.Any())
+    {
+        <table class="table">
         <thead>
             <th>Id</th>
             <th>Имя</th>
@@ -28,14 +30,23 @@
                     <td>@employee.Age</td>
                     <td>
                         <a asp-action="Edit" asp-route-Id="@employee.Id"
-                            class="btn btn-sm btn-default">
+                            class="btn-sm btn-sm btn-default">
                             <i class="fa fa-edit"></i>
+                        </a> |
+                        <a asp-action="Delete" asp-route-Id="@employee.Id"
+                            class="btn-sm btn-danger">
+                            <i class="fa fa-times"></i>
                         </a>
                     </td>
                 </tr>
             }
         </tbody>
-    </table>
+        </table>
+    }
+    else
+    {
+       <p>Сотрудники отсутствуют</p> 
+    }
 
 @*<a href = "/">На главную</a>*@
 <a asp-controller="Home" asp-action="Index">На главную</a>
