@@ -6,10 +6,10 @@ using WebStore.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
-//builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();    // объект создается единажды
+//builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
 builder.Services.AddScoped<IEmployeesData, InMemoryEmployeesData>();       // самый универсальный. единажды, но внутри контекста
                                                                            // (внутри области, которую можно создать как-то)
-//builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();    // при каждом заспросе объект создается заново
+//builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
 // конфигурирование основных частей (сервисов)
 
 // настройка контроллеров с представлениями
