@@ -17,4 +17,8 @@
     <Folder Include="Views\Shared\Partial\MasterData\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebStore.Domain\WebStore.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
