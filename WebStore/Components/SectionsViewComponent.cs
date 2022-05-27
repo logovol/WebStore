@@ -17,7 +17,7 @@ public class SectionsViewComponent : ViewComponent
     private readonly IProductData _ProductData;
     public SectionsViewComponent(IProductData ProductData) => _ProductData = ProductData;
 
-    public IViewComponentResult Invoke() => View();
+    //public IViewComponentResult Invoke() => View();
     //public async Task<IViewComponentResult> InvokeAsync() => View();
 
     public IViewComponentResult Invoke()
@@ -31,7 +31,7 @@ public class SectionsViewComponent : ViewComponent
             {
                 Id = s.Id,
                 Name = s.Name,
-            });
+            }).ToArray();
 
         foreach (var parent_section in parent_sections_views)
         {
