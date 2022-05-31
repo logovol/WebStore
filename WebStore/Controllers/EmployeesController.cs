@@ -59,6 +59,15 @@ public class EmployeesController : Controller
     [HttpPost]
     public IActionResult Edit(EmployeeViewModel Model)
     {
+        if (Model.LastName == "Qwe" && Model.Name == "Qwe" && Model.Patronymic == "Qwe")
+            ModelState.AddModelError("", "Qwe - плохой выбор");
+
+        if (Model.Name == "Asd")
+            ModelState.AddModelError("Name", "Asd - плохой выбор"); // именно к этому свойству ошибка
+
+        if (!ModelState.IsValid)
+            return View(Model);
+        
         var employee = new Employee()
         {
             Id = Model.Id,
@@ -66,16 +75,15 @@ public class EmployeesController : Controller
             LastName = Model.LastName,
             Patronymic = Model.Patronymic,
             Age = Model.Age,
-       };
+        };
 
         if (Model.Id == 0)
         {
             var new_employee_id = _Employees.Add(employee);
             return RedirectToAction(nameof(Details), new { Id = new_employee_id });
         }
-
         _Employees.Edit(employee);
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index));                
     }
 
     public IActionResult Delete(int Id)

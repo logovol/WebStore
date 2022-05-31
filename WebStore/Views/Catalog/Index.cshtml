@@ -1,27 +1,36 @@
-﻿<section id="advertisement">
+﻿@model CatalogViewModel
+@{
+	ViewBag.Title = "Каталог товаров";
+}
+
+@*<section id="advertisement">
 	<div class="container">
-		<img src="images/shop/advertisement.jpg" alt="" />
+		<img src="~images/shop/advertisement.jpg" alt="" />
 	</div>
-</section>
+</section>*@
 	
 <section>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="left-sidebar">
-					<h2>Категории</h2>
-					<partial name="Partial/_ProductsCategory"/>
+
+					<partial name="Partial/_LeftSideBar"/>
+					
+					@*<partial name="Partial/_ProductsCategory"/>
 					
 					<partial name="Partial/_BrandsProducts"/>
 						
 					<partial name="Partial/_PriceRange"/>
 						
-					<partial name="Partial/_Shipping"/>
+					<partial name="Partial/_Shipping"/>*@
 						
 				</div>
 			</div>
 				
-			<partial name="Partial/_FeatureItems" />
+			<div class="col-sm-9 padding-right">
+				<partial name="Partial/_Products" model="Model.Products"/>
+			<div/>
 		</div>
 	</div>
 </section>
