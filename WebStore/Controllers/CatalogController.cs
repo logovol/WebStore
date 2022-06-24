@@ -11,20 +11,15 @@ namespace WebStore.Controllers
         private readonly IProductData _ProductData;
         public CatalogController(IProductData productData) => _ProductData = productData;
 
-        public IActionResult Index(int? SectionId, int? BrandId)
-        {
-            var filter = new ProductFilter
-            {
-                BrandId = BrandId,
-                SectionId = SectionId,
-            };
-
+        // Bind доступные свойства
+        public IActionResult Index([Bind("BrandId,SectionId")]ProductFilter filter)
+        {            
             var products = _ProductData.GetProducts(filter);
 
             return View(new CatalogViewModel
             {
-                BrandId = BrandId,
-                SectionId = SectionId,
+                BrandId = filter.BrandId,
+                SectionId = filter.SectionId,
                 Products = products
                     .OrderBy(p => p.Order)
                     .Select(p => new ProductViewModel
