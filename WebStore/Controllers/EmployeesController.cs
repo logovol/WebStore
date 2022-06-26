@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using WebStore.Infrastructure.Mapping;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 using WebStore.ViewModels;
@@ -44,14 +45,16 @@ public class EmployeesController : Controller
         if (employee is null)
             return NotFound();
 
-        var view_model = new EmployeeViewModel()
+
+        var view_model = employee.ToView();
+        /*var view_model = new EmployeeViewModel()
         {
             Id = employee.Id,
             Name = employee.Name,
             LastName = employee.LastName,
             Patronymic = employee.Patronymic,
             Age = employee.Age,
-        };
+        };*/
 
         return View(view_model);
     }
@@ -67,15 +70,16 @@ public class EmployeesController : Controller
 
         if (!ModelState.IsValid)
             return View(Model);
-        
-        var employee = new Employee()
-        {
-            Id = Model.Id,
-            Name = Model.Name,
-            LastName = Model.LastName,
-            Patronymic = Model.Patronymic,
-            Age = Model.Age,
-        };
+
+        var employee = Model.FromView();
+        //var employee = new Employee()
+        //{
+        //    Id = Model.Id,
+        //    Name = Model.Name,
+        //    LastName = Model.LastName,
+        //    Patronymic = Model.Patronymic!,
+        //    Age = Model.Age,
+        //};
 
         if (Model.Id == 0)
         {

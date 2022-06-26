@@ -1,4 +1,6 @@
-﻿using WebStore.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using WebStore.Domain.Entities;
 using WebStore.ViewModels;
 
 namespace WebStore.Infrastructure.Mapping
@@ -6,7 +8,8 @@ namespace WebStore.Infrastructure.Mapping
     public static class ProductMapper
     {
         
-        public static ProductViewModel ToView(this Product? product) => product is null
+        [return: NotNullIfNotNull("product")]
+        public static ProductViewModel? ToView(this Product? product) => product is null
             ? null
             : new ProductViewModel
             {
