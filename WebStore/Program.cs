@@ -4,11 +4,11 @@ using WebStore.Services;
 using WebStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-var service_collection = builder.Services;
+var services = builder.Services;
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
 //builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
-service_collection.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
-service_collection.AddScoped<IProductData, InMemoryProductData>();
+services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
+services.AddScoped<IProductData, InMemoryProductData>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
 // конфигурирование основных частей (сервисов)
@@ -19,6 +19,8 @@ builder.Services.AddControllersWithViews(opt =>
         // добавление нашего соглашения в нашу модель
         opt.Conventions.Add(new TestConvention());
     });
+
+services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
