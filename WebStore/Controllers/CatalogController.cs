@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+
+using Microsoft.AspNetCore.Mvc;
 
 using WebStore.Domain;
 using WebStore.Infrastructure.Mapping;
@@ -10,10 +12,16 @@ namespace WebStore.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _ProductData;
-        public CatalogController(IProductData productData) => _ProductData = productData;
+        private readonly IMapper _Mapper;
+
+        public CatalogController(IProductData productData, IMapper Mapper)
+        {
+            _ProductData = productData;
+            _Mapper = Mapper;
+        }
 
         // Bind доступные свойства
-        public IActionResult Index([Bind("BrandId,SectionId")]ProductFilter filter)
+        public IActionResult Index([Bind("BrandId,SectionId")] ProductFilter filter)
         {            
             var products = _ProductData.GetProducts(filter);
 
@@ -21,7 +29,8 @@ namespace WebStore.Controllers
             {
                 BrandId = filter.BrandId,
                 SectionId = filter.SectionId,
-                Products = products.OrderBy(p => p.Order).ToView()!,
+                Products = products.OrderBy(p => p.Order).Select(p => _Mapper.Map<ProductViewModel>(p)).ToList(),
+                //Products = products.OrderBy(p => p.Order).ToView()!,
             });
         }
     }

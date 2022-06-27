@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+
+using Microsoft.AspNetCore.Mvc;
 
 using WebStore.Infrastructure.Mapping;
 using WebStore.Models;
@@ -11,8 +13,13 @@ namespace WebStore.Controllers;
 public class EmployeesController : Controller
 {
     private readonly IEmployeesData _Employees;
-    
-    public EmployeesController(IEmployeesData Employees) => _Employees = Employees;
+    private readonly IMapper _Mapper;
+
+    public EmployeesController(IEmployeesData Employees, IMapper Mapper)
+    {
+        _Employees = Employees;
+        _Mapper = Mapper;
+    }
 
     public IActionResult Index()
     {
@@ -45,8 +52,10 @@ public class EmployeesController : Controller
         if (employee is null)
             return NotFound();
 
+        var view_model = _Mapper.Map<EmployeeViewModel>(employee);
 
-        var view_model = employee.ToView();
+
+        //var view_model = employee.ToView();
         /*var view_model = new EmployeeViewModel()
         {
             Id = employee.Id,
@@ -71,7 +80,8 @@ public class EmployeesController : Controller
         if (!ModelState.IsValid)
             return View(Model);
 
-        var employee = Model.FromView();
+        var employee = _Mapper.Map<Employee>(Model);
+        //var employee = Model.FromView();
         //var employee = new Employee()
         //{
         //    Id = Model.Id,
