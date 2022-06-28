@@ -9,6 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.0-preview.5.22313.5" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.174" />
@@ -17,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebStore.DAL\WebStore.DAL.csproj" />
     <ProjectReference Include="..\WebStore.Domain\WebStore.Domain.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,9 @@ namespace WebStore.Domain.Entities.Base;
 
 public abstract class Entity : IEntity, IEquatable<Entity>
 {
+    [Key]
+    // для id можно не задавать, но для учебных целей показано как включить генерацию уникальных ключей для свойства
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     // сравниваем тоже самое, только добавляется срвнение по Id
