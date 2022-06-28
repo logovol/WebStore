@@ -7,7 +7,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities;
 
-// уникальные имены не нужны
+// уникальные имена не нужны
 [Index(nameof(Name), IsUnique = false)]
 public class Section : NamedEntity, IOrderedEntity
 {
