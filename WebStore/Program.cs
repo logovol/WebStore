@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
@@ -15,6 +16,7 @@ services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый �
 services.AddScoped<IProductData, InMemoryProductData>();
 
 services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+services.AddScoped<DbInitializer>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
 // конфигурирование основных частей (сервисов)
