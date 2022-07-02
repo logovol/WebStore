@@ -9,9 +9,9 @@
 			<div class="col-sm-4">
 				<div class="signup-form"><!--sign up form-->
 					<h2>Регистрация нового пользователя</h2>
-					@*asp-action="Register" можно не писать*@
+					@*asp-action="Register" можно не писать. Значение: отправляем на действие Регистр*@
 					<form asp-action="Register" asp-antiforgery="true">
-
+						@*блок куда выводятся ошибки модели*@
 						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 						<input asp-for="UserName" placeholder="Логин"/>

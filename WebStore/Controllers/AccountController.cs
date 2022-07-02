@@ -57,7 +57,47 @@ public class AccountController : Controller
         return View(Model);
     }
 
-    public IActionResult Login() => View();
+    // Login() отправляет ViewModel в Login.cshtml
+    // ReturnUrl можно не указывать
+    public IActionResult Login(string? ReturnUrl) => View(new LoginViewModel() { ReturnUrl = ReturnUrl });
+
+    // Данный метод ловит форму обратно
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel Model)
+    {
+        if (!ModelState.IsValid)
+            return View(Model);
+
+        var login_result = await _SignInManager.PasswordSignInAsync(
+            Model.UserName,
+            Model.Password,
+            Model.RememberMe,
+            lockoutOnFailure: true);
+
+        if(login_result.Succeeded)
+        {
+            _Logger.LogInformation("Пользователь {0} успешно вошёл в систему", Model.UserName);
+
+            // делать редирект просто так нельзя. мб подмена на другой сайт и cookies уйдет злоумышленнику
+            //return Redirect(Model.ReturnUrl);
+            
+            // Так нужно делать
+            //if(Url.IsLocalUrl(Model.ReturnUrl))
+            //    return Redirect(Model.ReturnUrl);
+            //return RedirectToAction("Index", "Home");
+        
+            // Можно написать проще
+            return LocalRedirect(Model.ReturnUrl ?? "/");
+        }
+
+        // Увеомление поьзователя, если он не вошел в систему
+        ModelState.AddModelError("", "Неверное имя пользователя или пароль");
+
+        _Logger.LogWarning("Ошибка входа пользователя {0} - неверное имя или пароль", Model.UserName);
+
+        return View(Model);
+    }
 
     public IActionResult Logout() => View();
 
