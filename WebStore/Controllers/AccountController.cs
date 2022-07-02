@@ -113,6 +113,6 @@ public class AccountController : Controller
     public IActionResult AccessDenied(string? ReturnUrl)
     { 
         ViewBag.ReturnUrl = ReturnUrl;
-        View();
+        return View();
     }
 }
