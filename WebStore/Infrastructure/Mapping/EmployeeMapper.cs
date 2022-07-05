@@ -4,7 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebStore.Models;
+
+using WebStore.Domain.Entities;
 using WebStore.ViewModels;
 
 namespace WebStore.Infrastructure.Mapping

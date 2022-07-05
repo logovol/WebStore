@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 
 using WebStore.Domain.Entities;
-using WebStore.Models;
 using WebStore.ViewModels;
 
 namespace WebStore.Infrastructure.AutoMapper
