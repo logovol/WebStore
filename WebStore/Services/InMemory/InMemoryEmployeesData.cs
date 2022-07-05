@@ -1,5 +1,5 @@
 ﻿using WebStore.Data;
-using WebStore.Models;
+using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services;
@@ -106,4 +106,23 @@ public class InMemoryEmployeesData : IEmployeesData
 
         return employee;
     }
+
+    public int GetCount() => _Employees.Count;
+
+    public IEnumerable<Employee> Get(int Skip, int Take)// => _Employees.Skip(Skip).Take(Take);
+    {
+        IEnumerable<Employee> query = _Employees;
+
+        if (Take == 0)
+            return Enumerable.Empty<Employee>();
+
+        if (Skip > 0)
+            query = query.Skip(Skip);
+
+        if(Skip > _Employees.Count())
+            return Enumerable.Empty<Employee>();
+
+        return query.Take(Skip);
+    }
+
 }

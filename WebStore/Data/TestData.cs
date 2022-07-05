@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using WebStore.Domain.Entities;
-using WebStore.Models;
 
 namespace WebStore.Data
 {
