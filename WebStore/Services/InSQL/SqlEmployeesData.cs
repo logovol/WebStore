@@ -80,6 +80,19 @@ public class SqlEmployeesData : IEmployeesData
         return true;
     }
 
+    public IEnumerable<Employee> Get(int Skip, int Take)
+    {
+        if (Take == 0)
+            return Enumerable.Empty<Employee>();
+
+        IQueryable<Employee> query = _db.Employees;
+
+        if(Skip > 0)
+            query = query.Skip(Skip);
+
+        return query.Take(Take);
+    }
+
     public IEnumerable<Employee> GetAll() => _db.Employees;
 
     //public Employee? GetById(int id) => _db.Employees.FirstOrDefault(e => e.Id == id);
@@ -88,4 +101,5 @@ public class SqlEmployeesData : IEmployeesData
     // оптимизация в том, что метод сначала ищет в кэше и если нет, то делает запрос в БД как FirstOfDefault
     public Employee? GetById(int id) => _db.Employees.Find(id);
 
+    public int GetCount() => _db.Employees.Count();
 }

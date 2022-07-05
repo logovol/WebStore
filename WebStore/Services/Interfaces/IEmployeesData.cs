@@ -11,7 +11,11 @@ namespace WebStore.Services.Interfaces
     // CRUD interface
     public interface IEmployeesData
     {
+        int GetCount();
+
         IEnumerable<Employee> GetAll();
+
+        IEnumerable<Employee> Get(int Skip, int Take);
 
         Employee? GetById(int id);
 
