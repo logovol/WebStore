@@ -41,8 +41,11 @@ public class DbInitializer
         await _db.Database.MigrateAsync(Cancel).ConfigureAwait(false);
         _Logger.LogInformation("Применение миграции БД выполнено");
 
-        if(AddTestData)
+        if (AddTestData)
+        {
             await InitializeProductAsync(Cancel);
+            await InitializeEmployeesAsync(Cancel);
+        }   
 
         _Logger.LogInformation("Инициализация БД выполнена успешно");
     }
@@ -126,6 +129,23 @@ public class DbInitializer
         await transaction.CommitAsync(Cancel);
         _Logger.LogInformation("Транзакция в БД завершена");
 
+    }
+
+    private async Task InitializeEmployeesAsync(CancellationToken Cancel)
+    {
+        if (await _db.Employees.AnyAsync(Cancel).ConfigureAwait(false))
+        {
+            _Logger.LogInformation("Инициализация таблицы сотрудников в БД не требуется");
+            return;
+
+            _Logger.LogInformation("Инициализация БД сотрудников...");
+            foreach(var employee in TestData.Employees)
+                employee.Id = 0;
+
+            await _db.AddRangeAsync(TestData.Employees, Cancel);
+            await _db.SaveChangesAsync(Cancel);
+            _Logger.LogInformation("Инициализация БД сотрудников выполнена успешно");
+        }
     }
 }
 
