@@ -137,15 +137,15 @@ public class DbInitializer
         {
             _Logger.LogInformation("Инициализация таблицы сотрудников в БД не требуется");
             return;
-
-            _Logger.LogInformation("Инициализация БД сотрудников...");
-            foreach(var employee in TestData.Employees)
-                employee.Id = 0;
-
-            await _db.AddRangeAsync(TestData.Employees, Cancel);
-            await _db.SaveChangesAsync(Cancel);
-            _Logger.LogInformation("Инициализация БД сотрудников выполнена успешно");
         }
+
+        _Logger.LogInformation("Инициализация БД сотрудников...");
+        foreach(var employee in TestData.Employees)
+            employee.Id = 0;
+
+        await _db.AddRangeAsync(TestData.Employees, Cancel);
+        await _db.SaveChangesAsync(Cancel);
+        _Logger.LogInformation("Инициализация БД сотрудников выполнена успешно");        
     }
 }
 

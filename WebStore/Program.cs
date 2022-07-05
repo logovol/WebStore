@@ -58,8 +58,10 @@ services.ConfigureApplicationCookie(opt =>
 
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
 //builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
-services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
+//services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
 //services.AddScoped<IProductData, InMemoryProductData>();
+services.AddScoped<IEmployeesData, SqlEmployeesData>();
+
 services.AddScoped<IProductData, SqlProductData>();
 
 services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
