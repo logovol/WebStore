@@ -5,7 +5,7 @@ namespace WebStore.ViewModels.Identity
 {
     public class LoginViewModel
 {
-        [Required(ErrorMessage = "Имя пользователя не указано"]
+        [Required(ErrorMessage = "Имя пользователя не указано")]
         [Display(Name = "Имя пользователя")]
         [MaxLength(255)]
         public string UserName { get; set; } = null!;
