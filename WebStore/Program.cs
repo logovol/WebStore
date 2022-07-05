@@ -97,6 +97,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseMiddleware<TestMiddleware>();
 
 // из файла конфигурации appsettings.json
