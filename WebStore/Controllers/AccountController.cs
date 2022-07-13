@@ -42,6 +42,9 @@ public class AccountController : Controller
         if(creation_result.Succeeded)
         {
             _Logger.LogInformation("Пользователь {0} зарегистрирован", user);
+
+            await _UserManager.AddToRoleAsync(user, Role.Users);
+
             // Вход в систему. false - на один сеанс
             await _SignInManager.SignInAsync(user, false);
 
