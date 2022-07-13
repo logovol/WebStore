@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using WebStore.Domain.Entities.Identity;
@@ -6,6 +7,7 @@ using WebStore.ViewModels.Identity;
 
 namespace WebStore.Controllers;
 
+[Authorize]
 public class AccountController : Controller
 {
     private readonly UserManager<User> _UserManager;
@@ -22,11 +24,14 @@ public class AccountController : Controller
         _Logger = Logger;
     }
 
+    // Разрешаем доступ
+    [AllowAnonymous]
     // Отправка данных
     public IActionResult Register() => View(new RegisterUserViewModel());
 
     // Обработка полученных данных
     [HttpPost]
+    [AllowAnonymous] // разрешаем доступ
     [ValidateAntiForgeryToken] // Немного непонятно, то исключает снифферов и т.д.
     public async Task<IActionResult> Register(RegisterUserViewModel Model)
     {
@@ -62,10 +67,12 @@ public class AccountController : Controller
 
     // Login() отправляет ViewModel в Login.cshtml
     // ReturnUrl можно не указывать
+    [AllowAnonymous]
     public IActionResult Login(string? ReturnUrl) => View(new LoginViewModel() { ReturnUrl = ReturnUrl });
 
     // Данный метод ловит форму обратно
     [HttpPost]
+    [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel Model)
     {
@@ -113,6 +120,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    [AllowAnonymous]
     public IActionResult AccessDenied(string? ReturnUrl)
     { 
         ViewBag.ReturnUrl = ReturnUrl;
