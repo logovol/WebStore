@@ -11,6 +11,7 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Services;
 
+[Obsolete("Используйте SqlProductData")]
 public class InMemoryProductData : IProductData
 {
     public IEnumerable<Section> GetSections() => TestData.Sections;
@@ -30,5 +31,20 @@ public class InMemoryProductData : IProductData
             query = query.Where(x => x.BrandId == brand_id);
 
         return query;
+    }
+
+    public Section? GetSectionById(int Id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Brand? GetBrandById(int Id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Product? GetProductById(int Id)
+    {
+        throw new NotImplementedException();
     }
 }
