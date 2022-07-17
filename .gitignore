@@ -364,3 +364,6 @@ FodyWeavers.xsd
 +
 **/WebStore/wwwroot/lib
 +
+**/WebStore/wwwroot/js/site.*
+**/WebStore/wwwroot/css/site.*
++
