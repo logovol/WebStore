@@ -7,6 +7,7 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
+using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
@@ -63,6 +64,7 @@ services.ConfigureApplicationCookie(opt =>
 services.AddScoped<IEmployeesData, SqlEmployeesData>();
 
 services.AddScoped<IProductData, SqlProductData>();
+services.AddScoped<ICartService, InCookiesCartService>();
 
 services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 services.AddScoped<DbInitializer>();

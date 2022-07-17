@@ -12,7 +12,7 @@ namespace WebStore.Services.InCookies;
 public class InCookiesCartService : ICartService
 {
     private readonly IHttpContextAccessor _HttpContextAccessor;
-    private readonly InMemoryProductData _ProductData;
+    private readonly IProductData _ProductData;
     private readonly string _CartName;
 
     private Cart Cart
@@ -43,7 +43,7 @@ public class InCookiesCartService : ICartService
         cookies.Delete(_CartName);
         cookies.Append(_CartName, cart);
     }
-    public InCookiesCartService(IHttpContextAccessor HttpContextAccessor, InMemoryProductData ProductData)
+    public InCookiesCartService(IHttpContextAccessor HttpContextAccessor, IProductData ProductData)
         {
             _HttpContextAccessor = HttpContextAccessor;
             _ProductData = ProductData;
