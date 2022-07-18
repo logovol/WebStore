@@ -118,9 +118,17 @@ app.UseWelcomePage("/welcome");
 // маршрут автоматически
 // app.MapDefaultControllerRoute();
 
-// создание маршрута с настройками
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+// создание маршрутов с настройками
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
 app.Run();
