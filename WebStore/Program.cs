@@ -64,6 +64,7 @@ services.AddScoped<IEmployeesData, SqlEmployeesData>();
 
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
+services.AddScoped<IOrderService, SqlOrderService>();
 
 services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 services.AddScoped<DbInitializer>();
