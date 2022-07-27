@@ -61,7 +61,9 @@ public class SqlOrderService : IOrderService
             }).ToArray();
 
         // добавляем созданный заказ в БД
-        await _db.Orders.AddAsync(order, Cancel);        
+        await _db.Orders.AddAsync(order, Cancel);
+        await _db.SaveChangesAsync(Cancel);
+
         await transaction.CommitAsync(Cancel);
 
         return order;
