@@ -35,7 +35,7 @@ namespace WebStore.Controllers
         public async Task<IActionResult> Checkout(OrderViewModel OrderModel, [FromServices] IOrderService OrderService)
         {
             if (!ModelState.IsValid)
-                return View(nameof(Index) new CartOrderViewModel
+                return View(nameof(Index), new CartOrderViewModel
                 {
                     Cart = _CartService.GetViewModel(),
                     Order = OrderModel,
