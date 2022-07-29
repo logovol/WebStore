@@ -6,14 +6,33 @@ using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Infrastructure.Middleware;
-using WebStore.Services;
 using WebStore.Services.InCookies;
 using WebStore.Services.InSQL;
 using WebStore.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var config = builder.Configuration;
 var services = builder.Services;
+
+// можно написать так (DB секция-раздел из appsettings.json, Type - ключ внутри секции)
+//var db_type = config.GetSection("DB")["Type"];
+var db_type = config["DB:Type"];
+var db_connection_string = config.GetConnectionString(db_type);
+
+switch(db_type)
+{
+    case "DockerDB":
+    case "SqlServer":
+        services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(db_connection_string));
+        break;
+    case "Sqlite":
+        services.AddDbContext<WebStoreDB>(opt => opt.UseSqlite(db_connection_string, o => o.MigrationsAssembly("WebStore.DAL.Sqlite")));
+        break;
+}
+
+
+services.AddScoped<DbInitializer>();
 
 // конфигурирование системы Identity может быть тут /*opt => { opt... }*/
 services.AddIdentity<User, Role>(/*opt => { opt... }*/)
@@ -65,9 +84,7 @@ services.AddScoped<IEmployeesData, SqlEmployeesData>();
 
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
-
-services.AddDbContext<WebStoreDB>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
-services.AddScoped<DbInitializer>();
+services.AddScoped<IOrderService, SqlOrderService>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
 // конфигурирование основных частей (сервисов)
@@ -76,7 +93,8 @@ services.AddScoped<DbInitializer>();
 builder.Services.AddControllersWithViews(opt =>
     {
         // добавление нашего соглашения в нашу модель
-        opt.Conventions.Add(new TestConvention());
+        opt.Conventions.Add(new TestConvention());        
+        opt.Conventions.Add(new AddAreaToControllerConvention());
     });
 
 services.AddAutoMapper(typeof(Program));
@@ -87,8 +105,8 @@ using (var scope = app.Services.CreateScope())
 { 
     var db_initializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
     await db_initializer.InitializeAsync(
-        RemoveBefore: app.Configuration.GetValue("DbRecreate", false),
-        AddTestData: app.Configuration.GetValue("DbAddTestData", false));
+        RemoveBefore: app.Configuration.GetValue("DB:Recreate", false),
+        AddTestData: app.Configuration.GetValue("DB:AddTestData", false));
 }
 
 // подключение страницы отладчика, не будет работать, когда проект будет на хостинге
@@ -118,9 +136,17 @@ app.UseWelcomePage("/welcome");
 // маршрут автоматически
 // app.MapDefaultControllerRoute();
 
-// создание маршрута с настройками
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+// создание маршрутов с настройками
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
 app.Run();
