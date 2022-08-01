@@ -92,7 +92,7 @@ public class InCookiesCartService : ICartService
         });
 
         // перегоняем во вьюмодели и в словарь по идентификаторам
-        var products_views = products.ToView().ToDictionary(p => p.Id);
+        var products_views = products.ToView().ToDictionary(p => p!.Id);
 
 
         // формируем вью модель
