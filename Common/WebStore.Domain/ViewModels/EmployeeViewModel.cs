@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Mvc;
-namespace WebStore.ViewModels;
+
+namespace WebStore.Domain.ViewModels;
 
 public class EmployeeViewModel : IValidatableObject
 {
@@ -20,7 +22,7 @@ public class EmployeeViewModel : IValidatableObject
     [StringLength(10, ErrorMessage = "Длина строки до 10 символов")]
     public string? Patronymic { get; set; } = null!;
     [Display(Name = "Возраст")]
-    [Range(18, 80, ErrorMessage ="Возраст должен быть в диапозоне от 18 до 80 лет")]
+    [Range(18, 80, ErrorMessage = "Возраст должен быть в диапозоне от 18 до 80 лет")]
     public int Age { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

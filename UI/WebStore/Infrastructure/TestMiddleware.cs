@@ -1,4 +1,4 @@
-﻿namespace WebStore.Infrastructure.Middleware;
+﻿namespace WebStore.Infrastructure;
 
 public class TestMiddleware
 {

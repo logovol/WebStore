@@ -1,6 +1,6 @@
 ﻿using WebStore.Domain.Entities;
 
-namespace WebStore.Services.Interfaces
+namespace WebStore.Interfaces.Services
 {
     // CRUD interface
     public interface IEmployeesData
@@ -16,7 +16,7 @@ namespace WebStore.Services.Interfaces
         int Add(Employee employee);
 
         bool Edit(Employee employee);
-        
+
         bool Delete(int Id);
     }
 }

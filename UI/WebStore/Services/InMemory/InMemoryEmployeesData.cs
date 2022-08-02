@@ -1,8 +1,8 @@
 ﻿using WebStore.Data;
 using WebStore.Domain.Entities;
-using WebStore.Services.Interfaces;
+using WebStore.Interfaces.Services;
 
-namespace WebStore.Services;
+namespace WebStore.Services.InMemory;
 // СЕРВИС
 public class InMemoryEmployeesData : IEmployeesData
 {
@@ -15,7 +15,7 @@ public class InMemoryEmployeesData : IEmployeesData
         _Employees = TestData.Employees;
         _Logger = Logger;
 
-        if(_Employees.Count > 0)
+        if (_Employees.Count > 0)
             _LastFreeId = _Employees.Max(e => e.Id) + 1;
         else
             _LastFreeId = 1;
@@ -28,7 +28,7 @@ public class InMemoryEmployeesData : IEmployeesData
     }
 
     public int Add(Employee employee)
-    {    
+    {
         if (employee is null)
             throw new ArgumentNullException(nameof(employee));
 
@@ -45,7 +45,7 @@ public class InMemoryEmployeesData : IEmployeesData
         _Employees.Add(employee);
 
         _Logger.LogInformation("Сотрудник {0} добавлен", employee);
-        
+
         // если работаем с БД, то нужно обязательно тут вызвать SaveChanges()
         return employee.Id;
     }
@@ -68,7 +68,7 @@ public class InMemoryEmployeesData : IEmployeesData
         return true;
     }
 
-    public bool Edit(Employee employee) 
+    public bool Edit(Employee employee)
     {
         if (employee is null)
             throw new ArgumentNullException(nameof(employee));
@@ -100,9 +100,9 @@ public class InMemoryEmployeesData : IEmployeesData
         return true;
     }
 
-    public Employee? GetById(int id) 
+    public Employee? GetById(int id)
     {
-        var employee = _Employees.FirstOrDefault(e => e.Id == id);       
+        var employee = _Employees.FirstOrDefault(e => e.Id == id);
 
         return employee;
     }
@@ -119,7 +119,7 @@ public class InMemoryEmployeesData : IEmployeesData
         if (Skip > 0)
             query = query.Skip(Skip);
 
-        if(Skip > _Employees.Count())
+        if (Skip > _Employees.Count())
             return Enumerable.Empty<Employee>();
 
         return query.Take(Skip);

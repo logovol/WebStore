@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebStore.ViewModels.Identity;
+namespace WebStore.Domain.ViewModels.Identity;
 
 public class RegisterUserViewModel
 {
