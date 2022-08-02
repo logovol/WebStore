@@ -1,6 +1,4 @@
-﻿
-using WebStore.DAL.Context;
-using WebStore.DAL.Migrations;
+﻿using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 

@@ -1,7 +1,4 @@
-﻿
-
-using System.Text.Json;
-
+﻿using System.Text.Json;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Mapping;
 using WebStore.Services.Interfaces;

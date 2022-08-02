@@ -1,5 +1,4 @@
 ﻿namespace WebStore.ViewModels;
-
 public class CartViewModel
 {
     public IEnumerable<(ProductViewModel Product, int Quantity)> Items { get; set; } = null!;
