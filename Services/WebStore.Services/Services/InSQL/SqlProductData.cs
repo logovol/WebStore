@@ -5,7 +5,7 @@ using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services.InSQL;
+namespace WebStore.Services.Services.InSQL;
 
 public class SqlProductData : IProductData
 {
@@ -18,13 +18,13 @@ public class SqlProductData : IProductData
     public Brand? GetBrandById(int Id) => _db.Brands
         .Include(s => s.Products)
         .FirstOrDefault(b => b.Id == Id);
-    
+
     public IEnumerable<Product> GetProducts(ProductFilter? Filter = null)
     {
         IQueryable<Product> query = _db.Products
             .Include(p => p.Section)
             .Include(p => p.Brand);
-            
+
         if (Filter is { Ids: { Length: > 0 } ids })
         {
             query = query.Where(p => ids.Contains(p.Id));

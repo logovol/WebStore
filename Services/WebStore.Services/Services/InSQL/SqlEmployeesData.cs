@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services.InSQL;
+namespace WebStore.Services.Services.InSQL;
 
 public class SqlEmployeesData : IEmployeesData
 {
@@ -20,7 +21,7 @@ public class SqlEmployeesData : IEmployeesData
     {
         if (employee is null)
             throw new ArgumentNullException(nameof(employee));
-        
+
         _db.Employees.Add(employee);
 
         _db.SaveChanges();
@@ -34,9 +35,9 @@ public class SqlEmployeesData : IEmployeesData
     public bool Delete(int Id)
     {
         //var employee = GetById(Id);
-        
+
         // без загрузки лишней информации
-        var employee = _db.Employees            
+        var employee = _db.Employees
             .Select(e => new Employee { Id = e.Id })
             .FirstOrDefault(e => e.Id == Id);
         if (employee is null)
@@ -55,7 +56,7 @@ public class SqlEmployeesData : IEmployeesData
     public bool Edit(Employee employee)
     {
         if (employee is null)
-            throw new ArgumentNullException(nameof(employee));             
+            throw new ArgumentNullException(nameof(employee));
 
         var db_employee = GetById(employee.Id);
         if (db_employee is null)
@@ -86,7 +87,7 @@ public class SqlEmployeesData : IEmployeesData
 
         IQueryable<Employee> query = _db.Employees;
 
-        if(Skip > 0)
+        if (Skip > 0)
             query = query.Skip(Skip);
 
         return query.Take(Take);

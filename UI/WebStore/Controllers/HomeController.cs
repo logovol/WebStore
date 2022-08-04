@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using WebStore.Infrastructure.Mapping;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Controllers
 {

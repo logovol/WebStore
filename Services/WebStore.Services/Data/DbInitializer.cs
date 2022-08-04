@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 
-namespace WebStore.Data;
+namespace WebStore.Services.Data;
 
 // класс занимается инициализацией БД
 public class DbInitializer
@@ -13,7 +14,7 @@ public class DbInitializer
     private readonly UserManager<User> _UserManager;
     private readonly RoleManager<Role> _RoleManager;
     private readonly ILogger<DbInitializer> _Logger;
-    
+
     public DbInitializer(
         WebStoreDB db,
         UserManager<User> UserManager,
@@ -30,8 +31,8 @@ public class DbInitializer
     {
         _Logger.LogInformation("Удаление БД...");
         var result = await _db.Database.EnsureDeletedAsync(Cancel).ConfigureAwait(false);
-        if (result)        
-            _Logger.LogInformation("Удаление БД выполнено успешно");        
+        if (result)
+            _Logger.LogInformation("Удаление БД выполнено успешно");
         else
             _Logger.LogInformation("Удаление БД не выполнено или она отсутствовала на сервере");
 
@@ -41,7 +42,7 @@ public class DbInitializer
     public async Task InitializeAsync(bool RemoveBefore, bool AddTestData, CancellationToken Cancel = default)
     {
         _Logger.LogInformation("Инициализация БД...");
-        
+
         if (RemoveBefore)
             await RemoveAsync(Cancel).ConfigureAwait(false);
 
@@ -55,7 +56,7 @@ public class DbInitializer
         {
             await InitializeProductAsync(Cancel);
             await InitializeEmployeesAsync(Cancel);
-        }   
+        }
 
         await InitializeIdentityAsync(Cancel);
 
@@ -72,11 +73,11 @@ public class DbInitializer
             return;
         }
 
-        var sections_pool = TestData.Sections.ToDictionary(s => s.Id);        
+        var sections_pool = TestData.Sections.ToDictionary(s => s.Id);
         var brands_pool = TestData.Brands.ToDictionary(b => b.Id);
 
         foreach (var child_section in TestData.Sections.Where(s => s.ParentId is not null))
-        {   
+        {
             //child_section.Parent = sections_pool[Convert.ToInt32(child_section.ParentId)];
             // тоже самое, но сделал как у преподавателя
             child_section.Parent = sections_pool[(int)child_section.ParentId!];
@@ -98,7 +99,7 @@ public class DbInitializer
             brand.Id = 0;
 
         foreach (var sections in TestData.Sections)
-        { 
+        {
             sections.Id = 0;
             sections.ParentId = null;
         }
@@ -154,12 +155,12 @@ public class DbInitializer
         }
 
         _Logger.LogInformation("Инициализация БД сотрудников...");
-        foreach(var employee in TestData.Employees)
+        foreach (var employee in TestData.Employees)
             employee.Id = 0;
 
         await _db.AddRangeAsync(TestData.Employees, Cancel);
         await _db.SaveChangesAsync(Cancel);
-        _Logger.LogInformation("Инициализация БД сотрудников выполнена успешно");        
+        _Logger.LogInformation("Инициализация БД сотрудников выполнена успешно");
     }
 
     private async Task InitializeIdentityAsync(CancellationToken Cancel)
@@ -181,7 +182,7 @@ public class DbInitializer
         await CheckRoleAsync(Role.Administrators);
         await CheckRoleAsync(Role.Users);
 
-        if(await _UserManager.FindByNameAsync(User.Administrator) is null)
+        if (await _UserManager.FindByNameAsync(User.Administrator) is null)
         {
             _Logger.LogInformation("Пользователь {0} отсутсвует в БД. Создаю...", User.Administrator);
 
@@ -191,7 +192,7 @@ public class DbInitializer
             };
 
             var creation_result = await _UserManager.CreateAsync(admin, User.AdminPassword);
-            if(creation_result.Succeeded)
+            if (creation_result.Succeeded)
             {
                 _Logger.LogInformation("Пользователь {0} в БД cоздан. Присвоение роли Администратор...", User.Administrator);
 

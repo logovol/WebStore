@@ -1,11 +1,13 @@
 ﻿using System.Text.Json;
+
 using Microsoft.AspNetCore.Http;
+
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
-using WebStore.Infrastructure.Mapping;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
-namespace WebStore.Services.InCookies;
+namespace WebStore.Services.Services.InCookies;
 
 public class InCookiesCartService : ICartService
 {
@@ -22,7 +24,7 @@ public class InCookiesCartService : ICartService
             var cookies = context.Response.Cookies;
 
             var cart_cookie = context.Request.Cookies[_CartName];
-            if(cart_cookie is null)
+            if (cart_cookie is null)
             {
                 var cart = new Cart();
                 cookies.Append(_CartName, JsonSerializer.Serialize(cart));
@@ -42,15 +44,15 @@ public class InCookiesCartService : ICartService
         cookies.Append(_CartName, cart);
     }
     public InCookiesCartService(IHttpContextAccessor HttpContextAccessor, IProductData ProductData)
-        {
-            _HttpContextAccessor = HttpContextAccessor;
-            _ProductData = ProductData;
+    {
+        _HttpContextAccessor = HttpContextAccessor;
+        _ProductData = ProductData;
 
-            var user = HttpContextAccessor.HttpContext!.User;
-            var user_name = user.Identity!.IsAuthenticated ? $"-{user.Identity.Name}" : null;
+        var user = HttpContextAccessor.HttpContext!.User;
+        var user_name = user.Identity!.IsAuthenticated ? $"-{user.Identity.Name}" : null;
 
-            _CartName = $"WebStore.GB.Cart{user_name}";
-        }
+        _CartName = $"WebStore.GB.Cart{user_name}";
+    }
 
     public void Add(int Id)
     {
@@ -102,5 +104,5 @@ public class InCookiesCartService : ICartService
         };
     }
 
-    
+
 }

@@ -3,7 +3,7 @@
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 
-namespace WebStore.Infrastructure.Mapping
+namespace WebStore.Services.Mapping
 {
     public static class EmployeeMapper
     {
@@ -19,7 +19,7 @@ namespace WebStore.Infrastructure.Mapping
                 Age = employee.Age,
             };
 
-        [return:NotNullIfNotNull("employee")]
+        [return: NotNullIfNotNull("employee")]
         public static Employee? FromView(this EmployeeViewModel? employee) => employee is null
             ? null
             : new Employee
