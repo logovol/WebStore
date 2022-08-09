@@ -6,9 +6,11 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Interfaces.Services;
+using WebStore.Interfaces.TestAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InSQL;
+using WebStore.WebAPI.Clients.Values;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,10 +83,10 @@ services.ConfigureApplicationCookie(opt =>
 //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
 //services.AddScoped<IProductData, InMemoryProductData>();
 services.AddScoped<IEmployeesData, SqlEmployeesData>();
-
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IOrderService, SqlOrderService>();
+services.AddScoped<IValuesService, ValuesClient>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
 // конфигурирование основных частей (сервисов)
