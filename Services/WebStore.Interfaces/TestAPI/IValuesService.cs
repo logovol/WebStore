@@ -4,7 +4,7 @@ public interface IValuesService
 {
     IEnumerable<string> GetValues();
 
-    string GetById(int id);
+    string? GetById(int id);
 
     void Add(string Value);
 
