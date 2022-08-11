@@ -32,7 +32,6 @@ switch(db_type)
         break;
 }
 
-
 services.AddScoped<DbInitializer>();
 
 // конфигурирование системы Identity может быть тут /*opt => { opt... }*/
