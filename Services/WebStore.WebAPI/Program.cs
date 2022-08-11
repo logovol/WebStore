@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
@@ -27,6 +29,32 @@ switch (db_type)
 }
 
 services.AddScoped<DbInitializer>();
+
+// конфигурирование системы Identity может быть тут /*opt => { opt... }*/
+services.AddIdentity<User, Role>(/*opt => { opt... }*/)
+    .AddEntityFrameworkStores<WebStoreDB>()
+    .AddDefaultTokenProviders();
+
+// Ќастройки Identity
+services.Configure<IdentityOptions>(opt =>
+{
+#if DEBUG
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 3;
+    opt.Password.RequiredUniqueChars = 3;
+#endif
+
+    opt.User.RequireUniqueEmail = false;
+    opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    // дл€ всех вновь созданных пользователей учетные записи не заблокированны
+    opt.Lockout.AllowedForNewUsers = false;
+    opt.Lockout.MaxFailedAccessAttempts = 10;
+    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+});
 
 services.AddScoped<IEmployeesData, SqlEmployeesData>();
 services.AddScoped<IProductData, SqlProductData>();
