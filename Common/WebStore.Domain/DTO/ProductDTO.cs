@@ -82,6 +82,7 @@ public static class SectionDTOMapper
             Id = section.Id,
             Name = section.Name,
             Order = section.Order,
+            ParentId = section.ParentId,
         };
 
     [return: NotNullIfNotNull("section")] // если section !null, то результат - !null
@@ -92,6 +93,7 @@ public static class SectionDTOMapper
             Id = section.Id,
             Name = section.Name,
             Order = section.Order,
+            ParentId = section.ParentId,
         };
 
     public static IEnumerable<SectionDTO> ToDTO(this IEnumerable<Section>? sections) => sections?.Select(ToDTO)!;
