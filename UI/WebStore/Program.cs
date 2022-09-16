@@ -9,6 +9,7 @@ using WebStore.Interfaces.TestAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InSQL;
+using WebStore.WebAPI.Clients;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Values;
 
@@ -79,6 +80,7 @@ services.ConfigureApplicationCookie(opt =>
 // добавляем сервис как http-клиент и конфигурируем для него клиента (указываем базовый адрес в файле конфигурации)
 services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
 services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+services.AddHttpClient<IProductData,   ProductsClient>(client => client.BaseAddress = new(config["WebAPI"]));
 
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
 //builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
@@ -86,9 +88,9 @@ services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAdd
 //services.AddScoped<IProductData, InMemoryProductData>();
 //services.AddScoped<IEmployeesData, SqlEmployeesData>();
 //services.AddScoped<IEmployeesData, EmployeesClient>();
-services.AddScoped<IProductData,   SqlProductData>();
+//services.AddScoped<IProductData,   SqlProductData>();
 services.AddScoped<IOrderService,  SqlOrderService>();
-services.AddScoped<ICartService, InCookiesCartService>();
+services.AddScoped<ICartService,   InCookiesCartService>();
 //services.AddScoped<IValuesService, ValuesClient>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
