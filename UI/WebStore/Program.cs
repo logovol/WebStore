@@ -78,11 +78,18 @@ services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true;
 });
 
+// Один раз конфигурируем клиент, а далее подключаем к нему сервисы (взамен закоментированного кода далее)
+services.AddHttpClient("WebStoreApi", client => client.BaseAddress = new(config["WebAPI"]))
+    .AddTypedClient<IValuesService, ValuesClient>()
+    .AddTypedClient<IEmployeesData, EmployeesClient>()
+    .AddTypedClient<IProductData, ProductsClient>()
+    .AddTypedClient<IOrderService, OrdersClient>();
+
 // добавляем сервис как http-клиент и конфигурируем для него клиента (указываем базовый адрес в файле конфигурации)
-services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
-services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(config["WebAPI"]));
-services.AddHttpClient<IProductData,   ProductsClient>(client => client.BaseAddress = new(config["WebAPI"]));
-services.AddHttpClient<IOrderService,  OrdersClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IProductData,   ProductsClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IOrderService,  OrdersClient>(client => client.BaseAddress = new(config["WebAPI"]));
 
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
 //builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
