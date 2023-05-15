@@ -59,6 +59,7 @@ services.Configure<IdentityOptions>(opt =>
 services.AddScoped<IEmployeesData, SqlEmployeesData>();
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
+services.AddScoped<IOrderService, SqlOrderService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

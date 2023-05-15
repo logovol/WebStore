@@ -11,4 +11,8 @@
     <ProjectReference Include="..\WebStore.Interfaces\WebStore.Interfaces.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\InSQL\Products\" />
+  </ItemGroup>
+
 </Project>

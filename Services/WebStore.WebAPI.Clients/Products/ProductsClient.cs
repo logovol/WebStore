@@ -7,7 +7,7 @@ using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using WebStore.WebAPI.Clients.Base;
 
-namespace WebStore.WebAPI.Clients;
+namespace WebStore.WebAPI.Clients.Products;
 
 public class ProductsClient : BaseClient, IProductData
 {
@@ -37,7 +37,7 @@ public class ProductsClient : BaseClient, IProductData
     {
         var response = Post(Address, Filter ?? new());
 
-        if(response.StatusCode == HttpStatusCode.NoContent)
+        if (response.StatusCode == HttpStatusCode.NoContent)
             return Enumerable.Empty<Product>();
 
         var result = response.EnsureSuccessStatusCode()

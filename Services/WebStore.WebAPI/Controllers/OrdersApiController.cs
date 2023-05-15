@@ -17,6 +17,17 @@ public class OrdersApiController : ControllerBase
         _Logger = Logger;
     }
 
+    [HttpPost("{UserName}")]
+    public async Task<IActionResult> CreateOrder(string UserName, [FromBody] CreateOrderDTO Model)
+    {
+        var cart = Model.Items.ToCartViewModel();
+        var order_model = Model.Order;
+
+        var order = await _OrderService.CreateOrderAsync(UserName, cart, order_model);
+
+        return CreatedAtAction(nameof(GetOrderById), new { order.Id }, order.ToDTO());
+    }
+
     [HttpGet("user/{UserName}")]
     public async Task<IActionResult> GetUserOrders(string UserName)
     {
@@ -33,15 +44,5 @@ public class OrdersApiController : ControllerBase
         if (order is null)
             return NotFound();
         return Ok(order.ToDTO());
-    }
-
-    [HttpPost("{UserName}")]
-    public async Task<IActionResult> CreateOrder(string UserName, [FromBody] CreateOrderDTO Model)
-    {
-        var cart = Model.Items.ToCartViewModel();
-        var order_model = Model.Order;
-
-        var order = _OrderService.CreateOrderAsync(UserName, cart, order_model);
-        return CreatedAtAction(nameof(GetOrderById), new { order.Id } ,order);
-    }
+    }    
 }
