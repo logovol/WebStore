@@ -9,6 +9,9 @@ using WebStore.Interfaces.TestAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InSQL;
+using WebStore.WebAPI.Clients.Employees;
+using WebStore.WebAPI.Clients.Orders;
+using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +34,6 @@ switch(db_type)
         services.AddDbContext<WebStoreDB>(opt => opt.UseSqlite(db_connection_string, o => o.MigrationsAssembly("WebStore.DAL.Sqlite")));
         break;
 }
-
 
 services.AddScoped<DbInitializer>();
 
@@ -76,17 +78,28 @@ services.ConfigureApplicationCookie(opt =>
     opt.SlidingExpiration = true;
 });
 
+// Один раз конфигурируем клиент, а далее подключаем к нему сервисы (взамен закоментированного кода далее)
+services.AddHttpClient("WebStoreApi", client => client.BaseAddress = new(config["WebAPI"]))
+    .AddTypedClient<IValuesService, ValuesClient>()
+    .AddTypedClient<IEmployeesData, EmployeesClient>()
+    .AddTypedClient<IProductData, ProductsClient>()
+    .AddTypedClient<IOrderService, OrdersClient>();
+
 // добавляем сервис как http-клиент и конфигурируем для него клиента (указываем базовый адрес в файле конфигурации)
-services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IEmployeesData, EmployeesClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IProductData,   ProductsClient>(client => client.BaseAddress = new(config["WebAPI"]));
+//services.AddHttpClient<IOrderService,  OrdersClient>(client => client.BaseAddress = new(config["WebAPI"]));
 
 // Добавление сервиса в конейтер. Указывается интерфейс и класс, который его реализует
 //builder.Services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();  // объект создается единажды
 //services.AddScoped<IEmployeesData, InMemoryEmployeesData>();     // самый универсальный. единажды, но внутри контекста (внутри области, которую можно создать как-то)
 //services.AddScoped<IProductData, InMemoryProductData>();
-services.AddScoped<IEmployeesData, SqlEmployeesData>();
-services.AddScoped<IProductData, SqlProductData>();
-services.AddScoped<ICartService, InCookiesCartService>();
-services.AddScoped<IOrderService, SqlOrderService>();
+//services.AddScoped<IEmployeesData, SqlEmployeesData>();
+//services.AddScoped<IEmployeesData, EmployeesClient>();
+//services.AddScoped<IProductData,   SqlProductData>();
+//services.AddScoped<IOrderService,  SqlOrderService>();
+services.AddScoped<ICartService,   InCookiesCartService>();
 //services.AddScoped<IValuesService, ValuesClient>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
