@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Interfaces;
 
 namespace WebStore.WebAPI.Controllers.Identity;
 
 [ApiController]
-[Route("api/users")]
+[Route(WebApiAddresses.V1.Identity.Users)]
 public class UsersApiController : ControllerBase
 {
     private readonly UserStore<User, Role, WebStoreDB> _UserStore;

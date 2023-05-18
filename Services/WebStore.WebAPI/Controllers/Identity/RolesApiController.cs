@@ -7,11 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Interfaces;
 
 namespace WebStore.WebAPI.Controllers.Identity;
 
 [ApiController]
-[Route("api/roles")]
+[Route(WebApiAddresses.V1.Identity.Roles)]
 public class RolesApiController : ControllerBase
 {
     private readonly RoleStore<Role> _RoleStore;
