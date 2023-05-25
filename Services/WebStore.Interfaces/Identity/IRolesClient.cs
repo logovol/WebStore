@@ -2,6 +2,6 @@
 using WebStore.Domain.Entities.Identity;
 namespace WebStore.Interfaces.Identity;
 
-internal interface IRolesClient : IRoleStore<Role>
+public interface IRolesClient : IRoleStore<Role>
 {
 }

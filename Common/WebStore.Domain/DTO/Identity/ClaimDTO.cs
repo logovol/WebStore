@@ -4,7 +4,7 @@ namespace WebStore.Domain.DTO.Identity;
 
 public class ClaimDTO : UserDTO
 {
-    public IEnumerable<ClaimDTO> Claims { get; init; } = null!;
+    public IEnumerable<Claim> Claims { get; init; } = null!;
 }
 
 public class ReplaceClaimDTO : UserDTO
