@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace WebStore.WebAPI.Clients.Base;
 
-public abstract class BaseClient
+public abstract class BaseClient : IDisposable
 {
     protected HttpClient Http { get; }
     protected string Address { get; }
@@ -65,5 +65,32 @@ public abstract class BaseClient
     {
         var response = await Http.DeleteAsync(url, Cancel).ConfigureAwait(false);
         return response;
+    }
+
+    //~BaseClient() => Dispose(false);
+
+    public void Dispose()
+    {
+        Dispose(true);
+        // если объявлен финализатор и есть интерфейс Disposable
+        //GC.SuppressFinalize(this); // ~BaseClient() {...} - удалить данный объект из очереди на финализацию, если был вызван данный метод
+        // заставляет не вызывать "~BaseClient() => Dispose(false);" если был вызван метод public void Dispose()
+    }
+
+    // флаг, который будет говорить, что объект уничтожен
+    private bool _Disposed;
+
+    protected virtual void Dispose(bool Disposing)
+    {
+        if(Disposing)
+        {
+            // очистить все управляемые ресурсы
+            // если поле или свойство реализует Disposable
+            // то у него нужно вызвать Dispose
+            // Http.Dispose(); у этого объекта метод Dispose() мы права не имеем
+            // (т.к. он был передан в конструкторе) не мы его создавали
+        }
+
+        // здест освободить неуправляемые ресурсы
     }
 }
