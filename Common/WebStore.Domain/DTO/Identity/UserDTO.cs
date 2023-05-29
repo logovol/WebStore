@@ -20,8 +20,8 @@ public class PasswordHashDTO : UserDTO
 }
 
 // время окончания блокировки
-public class SetLockOut : UserDTO
+public class SetLockOutDTO : UserDTO
 {
     // время с учетом временного пояса
-    public DateTimeOffset? LockoutEnd { get; init;}
+    public DateTimeOffset? LockoutEnd { get; init; }
 }

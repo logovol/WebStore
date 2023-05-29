@@ -294,7 +294,7 @@ public class UsersApiController : ControllerBase
     public async Task<DateTimeOffset?> GetLockoutEndDateAsync([FromBody] User user) => await _UserStore.GetLockoutEndDateAsync(user);
 
     [HttpPost("SetLockoutEndDate")]
-    public async Task<DateTimeOffset?> SetLockoutEndDateAsync([FromBody] SetLockOut LockoutInfo)
+    public async Task<DateTimeOffset?> SetLockoutEndDateAsync([FromBody] SetLockOutDTO LockoutInfo)
     {
         await _UserStore.SetLockoutEndDateAsync(LockoutInfo.User, LockoutInfo.LockoutEnd);
         await _UserStore.UpdateAsync(LockoutInfo.User);
