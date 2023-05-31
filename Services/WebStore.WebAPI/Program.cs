@@ -67,6 +67,14 @@ services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db_initializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+    await db_initializer.InitializeAsync(
+        RemoveBefore: app.Configuration.GetValue("DB:Recreate", false),
+        AddTestData: app.Configuration.GetValue("DB:AddTestData", false));
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
