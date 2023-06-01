@@ -82,6 +82,9 @@ public abstract class BaseClient : IDisposable
 
     protected virtual void Dispose(bool Disposing)
     {
+        if (_Disposed) return;
+        _Disposed = true;
+
         if(Disposing)
         {
             // очистить все управляемые ресурсы
