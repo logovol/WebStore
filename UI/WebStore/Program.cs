@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+using Polly;
+using Polly.Extensions.Http;
+
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure;
@@ -54,7 +59,9 @@ services.AddHttpClient("WebStoreAPIIdentity", client => client.BaseAddress = new
     .AddTypedClient<IUserClaimStore<User>,          UsersClient>()
     .AddTypedClient<IUserLoginStore<User>,          UsersClient>()
     .AddTypedClient<IRolesClient,                   RolesClient>()
-    .AddTypedClient<IRoleStore<Role>,               RolesClient>();
+    .AddTypedClient<IRoleStore<Role>,               RolesClient>()
+    .AddPolicyHandler(GetRetryPolicy())
+    .AddPolicyHandler(GetCircuitBreakerPolicy());
 
 
 // Настройки Identity
@@ -98,7 +105,25 @@ services.AddHttpClient("WebStoreApi", client => client.BaseAddress = new(config[
     .AddTypedClient<IValuesService, ValuesClient>()
     .AddTypedClient<IEmployeesData, EmployeesClient>()
     .AddTypedClient<IProductData, ProductsClient>()
-    .AddTypedClient<IOrderService, OrdersClient>();
+    .AddTypedClient<IOrderService, OrdersClient>()
+    .AddPolicyHandler(GetRetryPolicy())
+    .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+// опеределяем политику повторных запросов
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy(int MaxRetryPolicy = 5, int MaxJitterTime = 1000)
+{
+    var jitter = new Random();
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .WaitAndRetryAsync(MaxRetryPolicy, RetryAttempt =>
+            TimeSpan.FromSeconds(Math.Pow(2, RetryAttempt)) +
+            TimeSpan.FromMilliseconds(jitter.Next(0, MaxJitterTime)));
+}
+
+static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() =>
+    HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 5, TimeSpan.FromSeconds(30));
 
 // добавляем сервис как http-клиент и конфигурируем для него клиента (указываем базовый адрес в файле конфигурации)
 //services.AddHttpClient<IValuesService, ValuesClient>(client => client.BaseAddress = new(config["WebAPI"]));
