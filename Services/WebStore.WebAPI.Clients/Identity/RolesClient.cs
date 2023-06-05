@@ -66,7 +66,7 @@ public class RolesClient : BaseClient, IRolesClient
            .ConfigureAwait(false);
     }
 
-    public async Task<string> GetRoleNameAsync(Role role, CancellationToken cancel)
+    public async Task<string?> GetRoleNameAsync(Role role, CancellationToken cancel)
     {
         var response = await PostAsync($"{Address}/GetRoleName", role, cancel).ConfigureAwait(false);
         return await response
@@ -76,7 +76,7 @@ public class RolesClient : BaseClient, IRolesClient
            .ConfigureAwait(false);
     }
 
-    public async Task SetRoleNameAsync(Role role, string name, CancellationToken cancel)
+    public async Task SetRoleNameAsync(Role role, string? name, CancellationToken cancel)
     {
         var response = await PostAsync($"{Address}/SetRoleName/{name}", role, cancel).ConfigureAwait(false);
         role.Name = await response
@@ -86,7 +86,7 @@ public class RolesClient : BaseClient, IRolesClient
            .ConfigureAwait(false);
     }
 
-    public async Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancel)
+    public async Task<string?> GetNormalizedRoleNameAsync(Role role, CancellationToken cancel)
     {
         var response = await PostAsync($"{Address}/GetNormalizedRoleName", role, cancel).ConfigureAwait(false);
         return await response
@@ -96,7 +96,7 @@ public class RolesClient : BaseClient, IRolesClient
            .ConfigureAwait(false);
     }
 
-    public async Task SetNormalizedRoleNameAsync(Role role, string name, CancellationToken cancel)
+    public async Task SetNormalizedRoleNameAsync(Role role, string? name, CancellationToken cancel)
     {
         var response = await PostAsync($"{Address}/SetNormalizedRoleName/{name}", role, cancel).ConfigureAwait(false);
         role.NormalizedName = await response
@@ -106,13 +106,13 @@ public class RolesClient : BaseClient, IRolesClient
            .ConfigureAwait(false);
     }
 
-    public async Task<Role> FindByIdAsync(string id, CancellationToken cancel)
+    public async Task<Role?> FindByIdAsync(string id, CancellationToken cancel)
     {
         var role = await GetAsync<Role>($"{Address}/FindById/{id}", cancel).ConfigureAwait(false);
         return role!;
     }
 
-    public async Task<Role> FindByNameAsync(string name, CancellationToken cancel)
+    public async Task<Role?> FindByNameAsync(string name, CancellationToken cancel)
     {
         var role = await GetAsync<Role>($"{Address}/FindByName/{name}", cancel).ConfigureAwait(false);
         return role!;

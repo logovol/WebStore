@@ -39,7 +39,7 @@ public class UsersApiController : ControllerBase
     //public async Task<IActionResult> GetUserIdAsync([FromBody] User user) => Ok(await _UserStore.GetUserIdAsync(user));
 
     [HttpPost("UserName")]
-    public async Task<string> GetUserNameAsync([FromBody] User user) => await _UserStore.GetUserNameAsync(user);
+    public async Task<string> GetUserNameAsync([FromBody] User user) => (await _UserStore.GetUserNameAsync(user))!;
 
     [HttpPost("UserName/{name}")] // api/v1/identity/users/UserName/TestUser1
     public async Task<string> SetUserNameAsync([FromBody] User user, string name)
@@ -49,18 +49,18 @@ public class UsersApiController : ControllerBase
         //user.UserName = name;
         // внесение изменение в БД
         await _UserStore.UpdateAsync(user);
-        return user.UserName;
+        return user.UserName!;
     }
 
     [HttpPost("NormalUserName")]
-    public async Task<string> GetNormalizedUserNameAsync([FromBody] User user) => await _UserStore.GetNormalizedUserNameAsync(user);
+    public async Task<string> GetNormalizedUserNameAsync([FromBody] User user) => (await _UserStore.GetNormalizedUserNameAsync(user))!;
 
     [HttpPost("NormalUserName/{name}")]
     public async Task<string> SetNormalizedUserNameAsync([FromBody] User user, string name)
     {
         await _UserStore.SetNormalizedUserNameAsync(user, name);
         await _UserStore.UpdateAsync(user);
-        return user.NormalizedUserName;
+        return user.NormalizedUserName!;
     }
 
     [HttpPost("User")] // POST -> api/v1/identity/users/user
@@ -138,14 +138,14 @@ public class UsersApiController : ControllerBase
     public async Task<IList<User>> GetUsersInRoleAsync(string role) => await _UserStore.GetUsersInRoleAsync(role);
 
     [HttpPost("GetPasswordHash")]
-    public async Task<string> GetPasswordHashAsync([FromBody] User user) => await _UserStore.GetPasswordHashAsync(user);
+    public async Task<string> GetPasswordHashAsync([FromBody] User user) => (await _UserStore.GetPasswordHashAsync(user))!;
 
     [HttpPost("SetPasswordHash")]
     public async Task<string> SetPasswordHashAsync([FromBody] PasswordHashDTO hash)
     {
         await _UserStore.SetPasswordHashAsync(hash.User, hash.Hash);
         await _UserStore.UpdateAsync(hash.User);
-        return hash.User.PasswordHash;
+        return hash.User.PasswordHash!;
     }
 
     [HttpPost("HasPassword")]
@@ -206,25 +206,25 @@ public class UsersApiController : ControllerBase
     #region Email/Phone
 
     [HttpPost("GetEmail")]
-    public async Task<string> GetEmailAsync([FromBody] User user) => await _UserStore.GetEmailAsync(user);
+    public async Task<string> GetEmailAsync([FromBody] User user) =>( await _UserStore.GetEmailAsync(user))!;
 
     [HttpPost("SetEmail/{email}")]
     public async Task<string> SetEmailAsync([FromBody] User user, string email)
     {
         await _UserStore.SetEmailAsync(user, email);
         await _UserStore.UpdateAsync(user);
-        return user.Email;
+        return user.Email!;
     }
 
     [HttpPost("GetNormalizedEmail")]
-    public async Task<string> GetNormalizedEmailAsync([FromBody] User user) => await _UserStore.GetNormalizedEmailAsync(user);
+    public async Task<string> GetNormalizedEmailAsync([FromBody] User user) => (await _UserStore.GetNormalizedEmailAsync(user))!;
 
     [HttpPost("SetNormalizedEmail/{email?}")]
     public async Task<string> SetNormalizedEmailAsync([FromBody] User user, string? email)
     {
         await _UserStore.SetNormalizedEmailAsync(user, email);
         await _UserStore.UpdateAsync(user);
-        return user.NormalizedEmail;
+        return user.NormalizedEmail!;
     }
 
     [HttpPost("GetEmailConfirmed")]
@@ -242,14 +242,14 @@ public class UsersApiController : ControllerBase
     public async Task<User> FindByEmailAsync(string email) => await _UserStore.FindByEmailAsync(email);
 
     [HttpPost("GetPhoneNumber")]
-    public async Task<string> GetPhoneNumberAsync([FromBody] User user) => await _UserStore.GetPhoneNumberAsync(user);
+    public async Task<string> GetPhoneNumberAsync([FromBody] User user) => (await _UserStore.GetPhoneNumberAsync(user))!;
 
     [HttpPost("SetPhoneNumber/{phone}")]
     public async Task<string> SetPhoneNumberAsync([FromBody] User user, string phone)
     {
         await _UserStore.SetPhoneNumberAsync(user, phone);
         await _UserStore.UpdateAsync(user);
-        return user.PhoneNumber;
+        return user.PhoneNumber!;
     }
 
     [HttpPost("GetPhoneNumberConfirmed")]

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
@@ -63,7 +64,26 @@ services.AddScoped<IOrderService, SqlOrderService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(opt =>
+{
+    //const string webstore_webapi_xml = "WebStore.WebAPI.xml";
+    //const string webstore_domain_xml = "WebStore.Domain.xml";
+
+    var webstore_webapi_xml = Path.ChangeExtension(Path.GetFileName(typeof(Program).Assembly.Location), "xml.");
+    var webstore_domain_xml = Path.ChangeExtension(Path.GetFileName(typeof(Product).Assembly.Location), "xml.");
+
+    const string debug_path = "bin/Debug/net6.0";
+
+    if (File.Exists(webstore_webapi_xml))
+        opt.IncludeXmlComments(webstore_webapi_xml);
+    else if (File.Exists(Path.Combine(debug_path, webstore_webapi_xml)))
+        opt.IncludeXmlComments(Path.Combine(debug_path, webstore_webapi_xml));
+
+    if (File.Exists(webstore_domain_xml))
+        opt.IncludeXmlComments(webstore_domain_xml);
+    else if (File.Exists(Path.Combine(debug_path, webstore_domain_xml)))
+        opt.IncludeXmlComments(Path.Combine(debug_path, webstore_domain_xml));    
+});
 
 var app = builder.Build();
 

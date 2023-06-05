@@ -27,7 +27,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task<string> GetUserNameAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetUserNameAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/UserName", user, cancel);
             return await response
@@ -37,7 +37,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task SetUserNameAsync(User user, string name, CancellationToken cancel)
+        public async Task SetUserNameAsync(User user, string? name, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/UserName/{name}", user, cancel);
             user.UserName = await response
@@ -47,7 +47,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetNormalizedUserNameAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/NormalUserName/", user, cancel);
             return await response
@@ -57,7 +57,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task SetNormalizedUserNameAsync(User user, string name, CancellationToken cancel)
+        public async Task SetNormalizedUserNameAsync(User user, string? name, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/NormalUserName/{name}", user, cancel);
             user.NormalizedUserName = await response
@@ -109,13 +109,13 @@ public class UsersClient : BaseClient, IUsersClient
                 : IdentityResult.Failed();
         }
 
-        public async Task<User> FindByIdAsync(string id, CancellationToken cancel)
+        public async Task<User?> FindByIdAsync(string id, CancellationToken cancel)
         {
             var user = await GetAsync<User>($"{Address}/User/Find/{id}", cancel).ConfigureAwait(false);
             return user!;
         }
 
-        public async Task<User> FindByNameAsync(string name, CancellationToken cancel)
+        public async Task<User?> FindByNameAsync(string name, CancellationToken cancel)
         {
             var user = await GetAsync<User>($"{Address}/User/Normal/{name}", cancel).ConfigureAwait(false);
             return user!;
@@ -166,9 +166,9 @@ public class UsersClient : BaseClient, IUsersClient
 
         #region Implementation of IUserPasswordStore<User>
 
-        public async Task SetPasswordHashAsync(User user, string hash, CancellationToken cancel)
+        public async Task SetPasswordHashAsync(User user, string? hash, CancellationToken cancel)
         {
-            var response = await PostAsync($"{Address}/SetPasswordHash", new PasswordHashDTO { User = user, Hash = hash }, cancel)
+            var response = await PostAsync($"{Address}/SetPasswordHash", new PasswordHashDTO { User = user, Hash = hash! }, cancel)
                .ConfigureAwait(false);
             user.PasswordHash = await response
                .EnsureSuccessStatusCode()
@@ -177,7 +177,7 @@ public class UsersClient : BaseClient, IUsersClient
             //user.PasswordHash = await response.Content.ReadAsStringAsync(cancel).ConfigureAwait(false);
         }
 
-        public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetPasswordHashAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetPasswordHash", user, cancel).ConfigureAwait(false);
             return await response
@@ -201,7 +201,7 @@ public class UsersClient : BaseClient, IUsersClient
 
         #region Implementation of IUserEmailStore<User>
 
-        public async Task SetEmailAsync(User user, string email, CancellationToken cancel)
+        public async Task SetEmailAsync(User user, string? email, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/SetEmail/{email}", user, cancel).ConfigureAwait(false);
             user.Email = await response
@@ -211,7 +211,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task<string> GetEmailAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetEmailAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetEmail", user, cancel).ConfigureAwait(false);
             return await response
@@ -241,13 +241,13 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task<User> FindByEmailAsync(string email, CancellationToken cancel)
+        public async Task<User?> FindByEmailAsync(string email, CancellationToken cancel)
         {
             var user = await GetAsync<User>($"{Address}/User/FindByEmail/{email}", cancel).ConfigureAwait(false);
             return user!;
         }
 
-        public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetNormalizedEmailAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/User/GetNormalizedEmail", user, cancel);
             return await response
@@ -257,7 +257,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task SetNormalizedEmailAsync(User user, string email, CancellationToken cancel)
+        public async Task SetNormalizedEmailAsync(User user, string? email, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/SetNormalizedEmail/{email}", user, cancel).ConfigureAwait(false);
             user.NormalizedEmail = await response
@@ -271,7 +271,7 @@ public class UsersClient : BaseClient, IUsersClient
 
         #region Implementation of IUserPhoneNumberStore<User>
 
-        public async Task SetPhoneNumberAsync(User user, string phone, CancellationToken cancel)
+        public async Task SetPhoneNumberAsync(User user, string? phone, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/SetPhoneNumber/{phone}", user, cancel).ConfigureAwait(false);
             user.PhoneNumber = await response
@@ -281,7 +281,7 @@ public class UsersClient : BaseClient, IUsersClient
                .ConfigureAwait(false);
         }
 
-        public async Task<string> GetPhoneNumberAsync(User user, CancellationToken cancel)
+        public async Task<string?> GetPhoneNumberAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetPhoneNumber", user, cancel).ConfigureAwait(false);
             return await response
@@ -336,7 +336,7 @@ public class UsersClient : BaseClient, IUsersClient
             return logins!;
         }
 
-        public async Task<User> FindByLoginAsync(string LoginProvider, string ProviderKey, CancellationToken cancel)
+        public async Task<User?> FindByLoginAsync(string LoginProvider, string ProviderKey, CancellationToken cancel)
         {
             var user = await GetAsync<User>($"{Address}/User/FindByLogin/{LoginProvider}/{ProviderKey}", cancel).ConfigureAwait(false);
             return user!;
