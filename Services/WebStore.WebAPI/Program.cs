@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
@@ -61,8 +62,17 @@ services.AddScoped<IEmployeesData, SqlEmployeesData>();
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IOrderService, SqlOrderService>();
+// один из предложенных вариантов из StackOverflow
+//services
+//    .AddMvc()
+//    .AddXmlSerializerFormatters();
+services.AddControllers(opt =>
+{
+    // настройка системы WebAPI на передачу данных в нужном формате
+    opt.InputFormatters.Add(new XmlSerializerInputFormatter(opt));
+    opt.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-services.AddControllers();
+});
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(opt =>
 {

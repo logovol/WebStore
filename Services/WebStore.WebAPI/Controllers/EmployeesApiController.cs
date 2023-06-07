@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using WebStore.Domain.Entities;
 using WebStore.Interfaces;
 using WebStore.Interfaces.Services;
@@ -9,6 +8,8 @@ namespace WebStore.WebAPI.Controllers;
 /// <summary>Управление сотрудниками</summary>
 [ApiController]
 [Route(WebApiAddresses.V1.Employees)]
+//[Produces("application/json")]
+//[Produces("application/xml")]
 public class EmployeesApiController : ControllerBase
 {
     private readonly IEmployeesData _EmployeesData;

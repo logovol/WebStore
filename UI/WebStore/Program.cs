@@ -48,7 +48,11 @@ services.AddIdentity<User, Role>(/*opt => { opt... }*/)
     //.AddEntityFrameworkStores<WebStoreDB>()
     .AddDefaultTokenProviders();
 
-services.AddHttpClient("WebStoreAPIIdentity", client => client.BaseAddress = new(config["WebAPI"]))
+services.AddHttpClient("WebStoreAPIIdentity", client =>
+    {
+        //client.DefaultRequestHeaders.Add("accept", "application/json");
+        client.BaseAddress = new(config["WebAPI"]);
+    })
     .AddTypedClient<IUsersClient, UsersClient>()
     .AddTypedClient<IUserStore<User>,               UsersClient>()
     .AddTypedClient<IUserRoleStore<User>,           UsersClient>()
