@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
@@ -60,12 +62,48 @@ services.AddScoped<IEmployeesData, SqlEmployeesData>();
 services.AddScoped<IProductData, SqlProductData>();
 services.AddScoped<ICartService, InCookiesCartService>();
 services.AddScoped<IOrderService, SqlOrderService>();
+// один из предложенных вариантов из StackOverflow
+//services
+//    .AddMvc()
+//    .AddXmlSerializerFormatters();
+services.AddControllers(opt =>
+{
+    // настройка системы WebAPI на передачу данных в нужном формате
+    opt.InputFormatters.Add(new XmlSerializerInputFormatter(opt));
+    opt.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-services.AddControllers();
+});
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(opt =>
+{
+    //const string webstore_webapi_xml = "WebStore.WebAPI.xml";
+    //const string webstore_domain_xml = "WebStore.Domain.xml";
+
+    var webstore_webapi_xml = Path.ChangeExtension(Path.GetFileName(typeof(Program).Assembly.Location), "xml.");
+    var webstore_domain_xml = Path.ChangeExtension(Path.GetFileName(typeof(Product).Assembly.Location), "xml.");
+
+    const string debug_path = "bin/Debug/net6.0";
+
+    if (File.Exists(webstore_webapi_xml))
+        opt.IncludeXmlComments(webstore_webapi_xml);
+    else if (File.Exists(Path.Combine(debug_path, webstore_webapi_xml)))
+        opt.IncludeXmlComments(Path.Combine(debug_path, webstore_webapi_xml));
+
+    if (File.Exists(webstore_domain_xml))
+        opt.IncludeXmlComments(webstore_domain_xml);
+    else if (File.Exists(Path.Combine(debug_path, webstore_domain_xml)))
+        opt.IncludeXmlComments(Path.Combine(debug_path, webstore_domain_xml));    
+});
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db_initializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+    await db_initializer.InitializeAsync(
+        RemoveBefore: app.Configuration.GetValue("DB:Recreate", false),
+        AddTestData: app.Configuration.GetValue("DB:AddTestData", false));
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

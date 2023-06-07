@@ -10,8 +10,10 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities.Base;
 
+/// <summary>Сущность</summary>
 public abstract class Entity : IEntity, IEquatable<Entity>
 {
+    /// <summary>Идентификатор</summary>
     [Key]
     // для id можно не задавать, но для учебных целей показано как включить генерацию уникальных ключей для свойства
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
