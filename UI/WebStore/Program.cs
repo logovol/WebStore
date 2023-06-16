@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Console;
 
 using Polly;
 using Polly.Extensions.Http;
@@ -22,8 +23,18 @@ using WebStore.WebAPI.Clients.Values;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Host.ConfigureLogging(
+//    log => log
+//        .ClearProviders()
+//        .AddConsole()
+//        .AddEventLog(opt => opt.LogName = "WebStore-log")
+//        .AddDebug()
+//        .AddFilter<ConsoleLoggerProvider>("Microsoft", LogLevel.Warning));
+
 var config = builder.Configuration;
 var services = builder.Services;
+
+//services.Configure<ConsoleFormatterOptions>(opt => opt.IncludeScopes = true);
 
 //// можно написать так (DB секция-раздел из appsettings.json, Type - ключ внутри секции)
 ////var db_type = config.GetSection("DB")["Type"];

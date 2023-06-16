@@ -45,35 +45,37 @@ public class AccountController : Controller
             UserName = Model.UserName,
         };
 
-        _Logger.LogTrace("Начало процесса регистрации нового пользователя {0)", Model.UserName);
+        _Logger.LogTrace("Начало процесса регистрации нового пользователя {0}", Model.UserName);
         var timer = Stopwatch.StartNew();
 
-        using var logger_scope = _Logger.BeginScope("Регистрация нового пользователя {0}", Model.UserName);
-
-        var creation_result = await _UserManager.CreateAsync(user, Model.Password);
-
-        if (creation_result.Succeeded)
+        //using var logger_scope = _Logger.BeginScope("Регистрация нового пользователя {0}", Model.UserName);
+        using (_Logger.BeginScope("Регистрация нового пользователя {0}", Model.UserName))
         {
-            _Logger.LogInformation("Пользователь {0} зарегистрирован за {1} мс", user, timer.ElapsedMilliseconds);
+            var creation_result = await _UserManager.CreateAsync(user, Model.Password);
 
-            await _UserManager.AddToRoleAsync(user, Role.Users);
+            if (creation_result.Succeeded)
+            {
+                _Logger.LogInformation("Пользователь {0} зарегистрирован за {1} мс", user, timer.ElapsedMilliseconds);
 
-            _Logger.LogInformation("Пользователю {0} назначена роль {1}. {2} мс", user, Role.Users, timer.ElapsedMilliseconds);
+                await _UserManager.AddToRoleAsync(user, Role.Users);
 
-            // Вход в систему. false - на один сеанс
-            await _SignInManager.SignInAsync(user, false);
-            _Logger.LogTrace("Пользователю {0} вошёл в систему. {1} мс", user, timer.ElapsedMilliseconds);
+                _Logger.LogInformation("Пользователю {0} назначена роль {1}. {2} мс", user, Role.Users, timer.ElapsedMilliseconds);
 
-            return RedirectToAction("Index", "Home");
+                // Вход в систему. false - на один сеанс
+                await _SignInManager.SignInAsync(user, false);
+                _Logger.LogTrace("Пользователю {0} вошёл в систему. {1} мс", user, timer.ElapsedMilliseconds);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in creation_result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+
+            var error_info = string.Join(", ", creation_result.Errors.Select(e => e.Description));
+            _Logger.LogWarning("Ошибка при регистрации пользователя {0}:({1} мс):{2}", user, timer.ElapsedMilliseconds, error_info);
+
+            return View(Model);
         }
-
-        foreach (var error in creation_result.Errors)
-            ModelState.AddModelError(string.Empty, error.Description);
-
-        var error_info = string.Join(", ", creation_result.Errors.Select(e => e.Description));
-        _Logger.LogWarning("Ошибка при регистрации пользователя {0}:({1} мс):{2}", user, timer.ElapsedMilliseconds, error_info);
-
-        return View(Model);
     }
 
     // Login() отправляет ViewModel в Login.cshtml
