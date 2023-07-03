@@ -370,3 +370,6 @@ FodyWeavers.xsd
 WebStore.db*
 **/Services/WebStore.WebAPI/WebStore.WebAPI.xml
 **/Common/WebStore.Domain/WebStore.Domain.xml
+/docker-compose.override.yml
+/.dockerignore
+/.dockerignore
