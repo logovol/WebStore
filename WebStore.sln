@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebAPI", "Services
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebAPI.Clients", "Services\WebStore.WebAPI.Clients\WebStore.WebAPI.Clients.csproj", "{8ACC3CA9-ADB7-429B-8AE2-A2DBFE26C90C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Logging", "Common\WebStore.Logging\WebStore.Logging.csproj", "{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Logging", "Common\WebStore.Logging\WebStore.Logging.csproj", "{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C506827E-3028-4534-88AF-F18637A3012E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C506827E-3028-4534-88AF-F18637A3012E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C506827E-3028-4534-88AF-F18637A3012E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C506827E-3028-4534-88AF-F18637A3012E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C506827E-3028-4534-88AF-F18637A3012E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{7D2A0179-D541-45BD-8A9D-52C884B9CE81} = {7BA7BD83-AF2C-4577-B0DD-3B36DD619300}
 		{8ACC3CA9-ADB7-429B-8AE2-A2DBFE26C90C} = {7BA7BD83-AF2C-4577-B0DD-3B36DD619300}
 		{CE2EB2E5-3FA6-4E72-B72F-DAAA9326572D} = {D928CAB9-494C-4542-ADEF-F2CD9E418B8C}
+		{C506827E-3028-4534-88AF-F18637A3012E} = {6F0F95CD-EB9D-4F76-8DAB-C2A06367AAB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34C1F6D8-6ECA-4FB9-B6AB-8FBB6C1BFAFC}

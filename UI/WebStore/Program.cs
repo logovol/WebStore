@@ -26,6 +26,7 @@ using WebStore.WebAPI.Clients.Orders;
 using WebStore.WebAPI.Clients.Products;
 using WebStore.WebAPI.Clients.Values;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddLog4Net();
 
@@ -37,14 +38,15 @@ builder.Logging.AddLog4Net();
 //        .AddDebug()
 //        .AddFilter<ConsoleLoggerProvider>("Microsoft", LogLevel.Warning));
 
+
 builder.Host.UseSerilog((host, log) => log.ReadFrom.Configuration(host.Configuration)
     .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .WriteTo.Console(
         outputTemplate: "[{Timestamp:HH:mm:ss.fff} {Level:u3}]{SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
-    .WriteTo.RollingFile($@".\Logs\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log")
-    .WriteTo.File(new JsonFormatter(",\r\n", true), $@".\Logs\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log.json")
+    .WriteTo.RollingFile(@"UI\Logs\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log")
+    .WriteTo.File(new JsonFormatter(",\r\n", true), @"\Logs\WebStore[{DateTime.Now:yyyy-MM-ddTHH-mm-ss}].log.json")
     .WriteTo.Seq(host.Configuration["SeqAddress"]!)
     );
 
