@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Xml;
 
-using Microsoft.Extensions.Logging;
-
 namespace WebStore.Logging;
 
 public class Log4NetLoggerProvider : ILoggerProvider
