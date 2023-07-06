@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Services\WebStore.Services\WebStore.Services.csproj" />
+		<ProjectReference Include="..\..\UI\WebStore\WebStore.csproj" />
 	</ItemGroup>
 
 </Project>
