@@ -6,7 +6,7 @@ using System.Security.Claims;
 using WebStore.Domain.DTO.Identity;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces;
-using WebStore.Interfaces.Identity;
+using WebStore.Interfaces.Services.Identity;
 using WebStore.WebAPI.Clients.Base;
 
 namespace WebStore.WebAPI.Clients.Identity;
