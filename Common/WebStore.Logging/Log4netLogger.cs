@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Xml;
-
 using log4net;
-
-using Microsoft.Extensions.Logging;
 
 namespace WebStore.Logging;
 

@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 
-using Microsoft.Extensions.Logging;
-
 namespace WebStore.Logging;
 
 // для упрощения регистрации логера в системе

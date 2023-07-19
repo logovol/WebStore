@@ -7,6 +7,9 @@ namespace WebStore.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _Logger;
+        public HomeController(ILogger<HomeController> Logger) => _Logger = Logger;
+
         public IActionResult Index([FromServices] IProductData ProductData)
         {
             var products = ProductData.GetProducts().OrderBy(p => p.Order).Take(6).ToView();

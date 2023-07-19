@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces;
-using WebStore.Interfaces.Identity;
+using WebStore.Interfaces.Services.Identity;
 using WebStore.WebAPI.Clients.Base;
 
 namespace WebStore.WebAPI.Clients.Identity;
