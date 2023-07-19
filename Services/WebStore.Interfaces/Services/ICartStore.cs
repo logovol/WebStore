@@ -2,7 +2,7 @@
 
 namespace WebStore.Interfaces.Services;
 
-public class ICartStore
+public interface ICartStore
 {
     public Cart Cart { get; set; }
 }

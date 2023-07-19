@@ -1,9 +1,12 @@
-﻿using Moq;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Moq;
 
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Services;
 
 using Assert = Xunit.Assert;
 
@@ -12,8 +15,12 @@ namespace WebStore.Services.Tests.Services;
 [TestClass]
 public class CartServiceTests
 {
-    private Cart _Cart;
-    private Mock<IProductData> _ProductDataMock;    
+    private Cart _Cart = null!;
+    private Mock<IProductData> _ProductDataMock = null!;
+    private Mock<ICartStore> _CartStoreMock = null!;
+
+    // создание тестируемого сервиса корзины
+    private ICartService _CartService = null!;
 
     [TestInitialize]
     public void Initialize()
@@ -66,6 +73,11 @@ public class CartServiceTests
                     Section = new Section { Id = 3, Name = "Section 3", Order = 3 },
                 },
             });
+
+        _CartStoreMock = new Mock<ICartStore>();
+        _CartStoreMock.Setup(c => c.Cart).Returns(_Cart);
+
+        _CartService = new CartService(_ProductDataMock.Object, _CartStoreMock.Object);
     }
 
     [TestMethod, Description("Тест модели корзины")]
