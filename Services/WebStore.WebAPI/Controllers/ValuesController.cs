@@ -28,7 +28,7 @@ public class ValuesController : ControllerBase
     public IActionResult GetAll()
     {
 
-        throw new Exception();
+        //throw new Exception();
 
         if (__Values.Count == 0)
             return NoContent();
