@@ -103,6 +103,4 @@ public class InCookiesCartService : ICartService
              .Select(item => (products_views[item.ProductId], item.Quantity))!,
         };
     }
-
-
 }

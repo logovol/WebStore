@@ -19,6 +19,7 @@ using WebStore.Interfaces.Services.Identity;
 using WebStore.Interfaces.TestAPI;
 using WebStore.Logging;
 using WebStore.Services.Data;
+using WebStore.Services.Services;
 using WebStore.Services.Services.InCookies;
 using WebStore.WebAPI.Clients.Employees;
 using WebStore.WebAPI.Clients.Identity;
@@ -173,7 +174,9 @@ static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() =>
 //services.AddScoped<IEmployeesData, EmployeesClient>();
 //services.AddScoped<IProductData,   SqlProductData>();
 //services.AddScoped<IOrderService,  SqlOrderService>();
-services.AddScoped<ICartService,   InCookiesCartService>();
+services.AddScoped<ICartStore, InCookiesCartStore>();
+services.AddScoped<ICartService, CartService>();
+//services.AddScoped<ICartService, InCookiesCartService>();
 //services.AddScoped<IValuesService, ValuesClient>();
 
 //builder.Services.AddTransient<IEmployeesData, InMemoryEmployeesData>();  // при каждом заспросе объект создается заново
