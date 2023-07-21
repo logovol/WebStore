@@ -30,7 +30,7 @@ public class ProductsClient : BaseClient, IProductData
 
     public Product? GetProductById(int Id)
     {
-        var result = Get<ProductDTO>($"{Address}/products/{Id}");
+        var result = Get<ProductDTO>($"{Address}/{Id}");
         return result.FromDTO();
     }
 

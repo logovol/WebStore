@@ -43,7 +43,7 @@ public class SqlProductData : IProductData
 
     public Product? GetProductById(int Id) => _db.Products
         .Include(p => p.Section)
-        .Include(P => P.Brand)
+        .Include(p => p.Brand)
         .FirstOrDefault(p => p.Id == Id);
 
     // AsEnumerable - выполняется запрос и из него начинается чтение данных. ToArray сразу выгружаются все данные в память (мб outofmemory)
