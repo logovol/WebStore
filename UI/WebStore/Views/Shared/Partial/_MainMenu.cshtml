@@ -2,10 +2,10 @@
     <ul class="nav navbar-nav collapse navbar-collapse">
         <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
         <li class="dropdown">
-            <a is-active-route ignore-action asp-controller="Catalog" asp-action="Index">Магазин<i class="fa fa-angle-down"></i></a>
+            <a ws-is-active-route ws-ignore-action asp-controller="Catalog" asp-action="Index">Магазин<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li>
-                    <a is-active-route asp-controller="Catalog" asp-action="Index">Каталог</a>
+                    <a ws-is-active-route asp-controller="Catalog" asp-action="Index">Каталог</a>
                 </li>
                 @*<li><a href="product-details.html">О товаре</a></li> 
                 <li><a href="checkout.html">Оформить заказ</a></li> 
@@ -21,7 +21,7 @@
 			    @*<li><a asp-controller="Blogs" asp-action="ShopBlog">Блог магазина</a></li>*@
             @*</ul>*@
         @*</li>*@
-        <li><a is-active-route asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
+        <li><a ws-is-active-route asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
         <li><a asp-controller="WebAPI" asp-action="Index" class="@IsActive("WebAPI")">WebAPI</a></li>
     </ul>
 </div>
