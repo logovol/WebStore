@@ -14,7 +14,7 @@ public class BrandsViewComponent : ViewComponent
 
     // можно выбирать представление, если их несколько
     // public IViewComponentResult Invoke() => View("Name");
-    public IViewComponentResult Invoke() => View(GetBrands());
+    public IViewComponentResult Invoke(string BrandId) => View(GetBrands());
 
     private IEnumerable<BrandViewModel> GetBrands() =>
         _ProductData.GetBrands()

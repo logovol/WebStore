@@ -13,8 +13,25 @@ public class SectionsViewComponent : ViewComponent
     //public IViewComponentResult Invoke() => View();
     //public async Task<IViewComponentResult> InvokeAsync() => View();
 
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(string SectionId)
     {
+        //var brand_id_str = Request.Query["BrandId"];
+        //ViewContext.RouteData.Values[""];
+
+        var section_id = int.TryParse(SectionId, out var id) ? id :(int?)null;        
+
+        return View(new SelectableSectionsViewModel
+        {
+            Sections = GetSections(section_id, out var parent_section_id),
+            SectionId = section_id,
+            ParentSectionId = parent_section_id,
+        });
+    }
+
+    private IEnumerable<SectionViewModel> GetSections(int? SectionId, out int? ParentSectionId)
+    {
+        ParentSectionId = null;
+        
         var sections = _ProductData.GetSections();
 
         var parents_sections = sections.Where(s => s.ParentId is null).OrderBy(s => s.Order);
@@ -31,6 +48,9 @@ public class SectionsViewComponent : ViewComponent
             var childs = sections.Where(s => s.ParentId == parent_section.Id);
             foreach (var child_section in childs.OrderBy(s => s.Order))
             {
+                if(child_section.Id == SectionId)
+                    ParentSectionId = parent_section.Id;
+
                 parent_section.ChildSections.Add(new()
                 {
                     Id = child_section.Id,
@@ -39,6 +59,6 @@ public class SectionsViewComponent : ViewComponent
             }
         }
 
-        return View(parent_sections_views);
+        return parent_sections_views;
     }
 }
