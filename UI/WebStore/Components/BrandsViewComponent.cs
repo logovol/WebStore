@@ -27,5 +27,6 @@ public class BrandsViewComponent : ViewComponent
         {
             Id = b.Id,
             Name = b.Name,
+            ProductsCount = b.Products.Count,
         });
 }

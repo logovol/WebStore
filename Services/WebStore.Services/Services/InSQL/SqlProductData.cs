@@ -13,7 +13,7 @@ public class SqlProductData : IProductData
 
     public SqlProductData(WebStoreDB db) => _db = db;
 
-    public IEnumerable<Brand> GetBrands() => _db.Brands/*.AsEnumerable()*/;
+    public IEnumerable<Brand> GetBrands() => _db.Brands.Include(b => b.Products)/*.AsEnumerable()*/;
 
     public Brand? GetBrandById(int Id) => _db.Brands
         .Include(s => s.Products)
