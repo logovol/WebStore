@@ -25,12 +25,12 @@ public class BreadCrumbsViewComponent : ViewComponent
             }
         }
 
-        if (int.TryParse(Request.Query["BrandId"], out var brand_id))
-            model.Brand = _ProductData?.GetBrandById(brand_id);
+		if (int.TryParse(Request.Query["BrandId"], out var brand_id))
+			model.Brand = _ProductData.GetBrandById(brand_id);
 
-        if (int.TryParse(Request.RouteValues["id"]?.ToString(), out var product_id))
-            model.Product = _ProductData.GetProductById(product_id)?.Name;
+		if (int.TryParse(Request.RouteValues["id"]?.ToString(), out var product_id))
+			model.Product = _ProductData.GetProductById(product_id)?.Name;
 
-        return View();
+		return View(model);
     }
 }
