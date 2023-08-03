@@ -14,7 +14,11 @@ public class BrandsViewComponent : ViewComponent
 
     // можно выбирать представление, если их несколько
     // public IViewComponentResult Invoke() => View("Name");
-    public IViewComponentResult Invoke() => View(GetBrands());
+    public IViewComponentResult Invoke(string BrandId)
+    {
+        ViewBag.BrandId = int.TryParse(BrandId, out var id) ? id : (int?) null;
+        return View(GetBrands());
+    }
 
     private IEnumerable<BrandViewModel> GetBrands() =>
         _ProductData.GetBrands()
@@ -23,5 +27,6 @@ public class BrandsViewComponent : ViewComponent
         {
             Id = b.Id,
             Name = b.Name,
+            ProductsCount = b.Products.Count,
         });
 }

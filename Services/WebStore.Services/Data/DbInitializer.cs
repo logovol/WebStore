@@ -108,9 +108,12 @@ public class DbInitializer
 
         _Logger.LogInformation("Добавление данных в БД...");
         await _db.Sections.AddRangeAsync(TestData.Sections, Cancel);
-        await _db.Brands.AddRangeAsync(TestData.Brands, Cancel);
-        await _db.Products.AddRangeAsync(TestData.Products, Cancel);
+        await _db.SaveChangesAsync(Cancel);
 
+        await _db.Brands.AddRangeAsync(TestData.Brands, Cancel);
+        await _db.SaveChangesAsync(Cancel);
+
+        await _db.Products.AddRangeAsync(TestData.Products, Cancel);
         await _db.SaveChangesAsync(Cancel);
         _Logger.LogInformation("Добавление данных в БД выполнено успешно");
 
