@@ -47,7 +47,7 @@ public class SqlProductData : IProductData
         .FirstOrDefault(p => p.Id == Id);
 
     // AsEnumerable - выполняется запрос и из него начинается чтение данных. ToArray сразу выгружаются все данные в память (мб outofmemory)
-    public IEnumerable<Section> GetSections() => _db.Sections/*.AsEnumerable()*/;
+    public IEnumerable<Section> GetSections() => _db.Sections.Include(s => s.Products)/*.AsEnumerable()*/;
 
     public Section? GetSectionById(int Id) => _db.Sections
         .Include(s => s.Products)
