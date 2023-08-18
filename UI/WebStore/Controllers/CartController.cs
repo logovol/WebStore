@@ -82,7 +82,7 @@ public class CartController : Controller
     {
         _CartService.Add(Id);
         // отправка сообщения скрипту, можно JSON и OK
-        return Ok(new { Id, message = $"Товара {Id} был удалён из корзины" });
+        return Ok(new { Id, message = $"Товар {Id} был удалён из корзины" });
     }
     #endregion
 }
