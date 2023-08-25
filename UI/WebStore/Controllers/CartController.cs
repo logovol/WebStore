@@ -73,14 +73,14 @@ public class CartController : Controller
 
     public IActionResult DecrementAPI(int Id)
     {
-        _CartService.Add(Id);
+        _CartService.Decrement(Id);
         // отправка сообщения скрипту, можно JSON и OK
         return Ok(new { Id, message = $"Количество товара {Id} было уменьшено на 1" });
     }
 
     public IActionResult RemoveAPI(int Id)
     {
-        _CartService.Add(Id);
+        _CartService.Remove(Id);
         // отправка сообщения скрипту, можно JSON и OK
         return Ok(new { Id, message = $"Товар {Id} был удалён из корзины" });
     }
