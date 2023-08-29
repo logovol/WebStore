@@ -13,16 +13,20 @@ public class CatalogController : Controller
 {
     private readonly IProductData _ProductData;
     private readonly IMapper _Mapper;
+    private readonly IConfiguration _Configuration;
 
-    public CatalogController(IProductData productData, IMapper Mapper)
+    public CatalogController(IProductData productData, IMapper Mapper, IConfiguration Configuration)
     {
         _ProductData = productData;
         _Mapper = Mapper;
+        _Configuration = Configuration;
     }
 
     // Bind доступные свойства
-    public IActionResult Index([Bind("BrandId,SectionId")] ProductFilter filter)
-    {            
+    public IActionResult Index([Bind("BrandId,SectionId,PageNumber,PageSize")] ProductFilter filter)
+    {
+        filter.PageSize ??= int.TryParse(_Configuration["CatalogPageSize"], out var page_size) ? page_size : null;
+
         var products = _ProductData.GetProducts(filter);
 
         return View(new CatalogViewModel
