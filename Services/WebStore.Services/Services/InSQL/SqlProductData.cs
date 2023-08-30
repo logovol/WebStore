@@ -38,6 +38,13 @@ public class SqlProductData : IProductData
                 query = query.Where(x => x.BrandId == brand_id);
         }
 
+        var count = query.Count();
+
+        if (Filter is { PageSize: > 0 and var page_size, PageNumber: > 0 and var page })
+            query = query
+                .Skip((page - 1) * page_size)
+                .Take(page_size);
+
         return query;
     }
 
