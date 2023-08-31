@@ -19,7 +19,7 @@ public class SqlProductData : IProductData
         .Include(s => s.Products)
         .FirstOrDefault(b => b.Id == Id);
 
-    public IEnumerable<Product> GetProducts(ProductFilter? Filter = null)
+    public Page<Product> GetProducts(ProductFilter? Filter = null)
     {
         IQueryable<Product> query = _db.Products
             .Include(p => p.Section)
@@ -45,7 +45,7 @@ public class SqlProductData : IProductData
                 .Skip((page - 1) * page_size)
                 .Take(page_size);
 
-        return query;
+        return new(query, Filter?.PageNumber ?? 0, Filter?.PageSize ?? 0, count);
     }
 
     public Product? GetProductById(int Id) => _db.Products

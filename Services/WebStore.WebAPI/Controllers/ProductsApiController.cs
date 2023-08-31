@@ -42,7 +42,7 @@ public class ProductsApiController : ControllerBase
     {
         var products = _ProductData.GetProducts(filter);
 
-        if (products.Any())
+        if (products.TotalCount > 0)
             return Ok(products.ToDTO());
         return NoContent();
     }
