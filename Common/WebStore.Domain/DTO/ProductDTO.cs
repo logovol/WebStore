@@ -40,7 +40,10 @@ public class BrandDTO
 
     public int Order { get; init; }
     
-    public int ProductsCount { get; init; }
+    //public int ProductsCount { get; init; }
+
+    // взамен закоментаренного
+    public IEnumerable<int> ProductIds { get; init; } = null!;
 }
 
 
@@ -57,7 +60,8 @@ public static class BrandDTOMapper
             Id = brand.Id,
             Name = brand.Name,
             Order = brand.Order,
-            ProductsCount = brand.Products.Count,
+            //ProductsCount = brand.Products.Count,
+            ProductIds = brand.Products.Select(p => p.Id),
         };
 
     [return: NotNullIfNotNull("brand")] // если brand !null, то результат - !null
@@ -68,7 +72,8 @@ public static class BrandDTOMapper
             Id = brand.Id,
             Name = brand.Name,
             Order = brand.Order,
-            Products = new Product[brand.ProductsCount],
+            //Products = new Product[brand.ProductsCount],
+            Products = brand.ProductIds.Select(id => new Product { Id = id }).ToArray(),
         };
 
     public static IEnumerable<BrandDTO> ToDTO(this IEnumerable<Brand>? brands) => brands?.Select(ToDTO)!;
@@ -137,4 +142,14 @@ public static class ProductDTOMapper
 
     public static IEnumerable<ProductDTO> ToDTO(this IEnumerable<Product>? products) => products?.Select(ToDTO)!;
     public static IEnumerable<Product> FromDTO(this IEnumerable<ProductDTO>? products) => products?.Select(FromDTO)!;
+
+    [return: NotNullIfNotNull("page")]
+    public static Page<ProductDTO>? ToDTO(this Page<Product>? page) => page is null
+        ? null
+        : new(page.Items.ToDTO(), page.PageNumber, page.PageSize, page.TotalCount);
+
+    [return: NotNullIfNotNull("page")]
+    public static Page<Product>? FromDTO(this Page<ProductDTO>? page) => page is null
+        ? null
+        : new(page.Items.FromDTO(), page.PageNumber, page.PageSize, page.TotalCount);
 }

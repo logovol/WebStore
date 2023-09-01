@@ -19,11 +19,12 @@ public class SqlProductData : IProductData
         .Include(s => s.Products)
         .FirstOrDefault(b => b.Id == Id);
 
-    public IEnumerable<Product> GetProducts(ProductFilter? Filter = null)
+    public Page<Product> GetProducts(ProductFilter? Filter = null)
     {
         IQueryable<Product> query = _db.Products
             .Include(p => p.Section)
-            .Include(p => p.Brand);
+            .Include(p => p.Brand)
+            .OrderBy(p => p.Order);
 
         if (Filter is { Ids: { Length: > 0 } ids })
         {
@@ -38,7 +39,14 @@ public class SqlProductData : IProductData
                 query = query.Where(x => x.BrandId == brand_id);
         }
 
-        return query;
+        var count = query.Count();
+
+        if (Filter is { PageSize: > 0 and var page_size, PageNumber: > 0 and var page })
+            query = query
+                .Skip((page - 1) * page_size)
+                .Take(page_size);
+
+        return new(query, Filter?.PageNumber ?? 0, Filter?.PageSize ?? 0, count);
     }
 
     public Product? GetProductById(int Id) => _db.Products
@@ -47,7 +55,7 @@ public class SqlProductData : IProductData
         .FirstOrDefault(p => p.Id == Id);
 
     // AsEnumerable - выполняется запрос и из него начинается чтение данных. ToArray сразу выгружаются все данные в память (мб outofmemory)
-    public IEnumerable<Section> GetSections() => _db.Sections/*.AsEnumerable()*/;
+    public IEnumerable<Section> GetSections() => _db.Sections.Include(s => s.Products)/*.AsEnumerable()*/;
 
     public Section? GetSectionById(int Id) => _db.Sections
         .Include(s => s.Products)
