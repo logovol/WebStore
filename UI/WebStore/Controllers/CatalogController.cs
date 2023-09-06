@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 using WebStore.Domain;
@@ -55,5 +56,11 @@ public class CatalogController : Controller
             return NotFound();
 
         return View(product.ToView());
+    }
+
+    public IActionResult GetProductsAPI([Bind("BrandId,SectionId,PageNumber,PageSize")] ProductFilter filter)
+    {
+        var products = _ProductData.GetProducts(filter);
+        return PartialView("Partial/_Products", products.Items.Select(p => _Mapper.Map<ProductViewModel>(p)));
     }
 }
