@@ -29,6 +29,10 @@
     {
       "library": "html5shiv@3.6.2",
       "destination": "wwwroot/lib/html5shiv/"
+    },
+    {      
+      "library": "jquery-loading-overlay@2.1.7",
+      "destination": "wwwroot/lib/jquery-loading-overlay/"
     }
   ]
 }
