@@ -30,15 +30,17 @@
 			</div>
 				
 			<div class="col-sm-9 padding-right">
-				<partial name="Partial/_Products" model="Model.Products"/>						 				
-			</div>
+				<div id="catalog-items-container">
+					<partial name="Partial/_Products" model="Model.Products"/>						 				
+				</div>
 
-			<paging page-model="Model.PageModel"
-					page-action="Index"
-					page-url-SectionId="@Model.SectionId"
-					page-url-BrandId="@Model.BrandId"
-					page-url-PageSize="@Context.Request.Query["PageSize"]">
-			</paging>
+				<paging page-model="Model.PageModel"
+						page-action="Index"
+						page-url-SectionId="@Model.SectionId"
+						page-url-BrandId="@Model.BrandId"
+						page-url-PageSize="@Context.Request.Query["PageSize"]">
+				</paging>
+			</div>
 		</div>
 	</div>
 </section>

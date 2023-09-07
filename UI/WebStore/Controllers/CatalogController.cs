@@ -58,6 +58,7 @@ public class CatalogController : Controller
         return View(product.ToView());
     }
 
+    // частичное предтавление страницы товаров для скрипта
     public IActionResult GetProductsAPI([Bind("BrandId,SectionId,PageNumber,PageSize")] ProductFilter filter)
     {
         var products = _ProductData.GetProducts(filter);
