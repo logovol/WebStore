@@ -18,6 +18,7 @@
             const page = button.data("page");
 
             const container = $("#catalog-items-container");
+
             container.LoadingOverlay("show");
 
             let query = "";
@@ -25,10 +26,10 @@
 
             for (let key in data)
                 if (data.hasOwnProperty(key))
-                    //query += key + "=" data[key] + "&";
+                    //query += key + "=" + data[key] + "&";
                     query += `${key}=${data[key]}&`;
 
-            $get(Catalog._properties.getViewLink + "?" + query)
+            $.get(Catalog._properties.getViewLink + "?" + query)
                 .done(catalogHtml => {
                     container.html(catalogHtml);
                     container.LoadingOverlay("hide");
@@ -40,10 +41,9 @@
                         .parent().addClass("active");
                 })
                 .fail(() => {
-                    console.log("ClickOnPage fail");
+                    console.log("clickOnPage fail");
                     container.LoadingOverlay("hide");
                 });
         }
     }
-
 }

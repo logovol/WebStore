@@ -44,3 +44,15 @@
 		</div>
 	</div>
 </section>
+
+@section Scripts
+	{	
+	<script src="~/js/Catalog/CatalogLogic.js"></script>
+	<script>
+		$(function () {
+			Catalog.init({
+				getViewLink: "@Url.Action("GetProductsAPI","Catalog")"
+			});
+		})
+	</script>
+}
