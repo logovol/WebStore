@@ -26,6 +26,14 @@ public class AccountController : Controller
         _Logger = Logger;
     }
 
+    [AllowAnonymous]
+    public async Task<IActionResult> IsNameFree(string UserName)
+    {
+        _Logger.LogInformation("Проверка наличия пользователя с именем {0}", UserName);
+        var user = await _UserManager.FindByNameAsync(UserName);
+        return Json(user is null ? "true" : $"Пользователь {UserName} уже существует");
+    }
+
     // Разрешаем доступ
     [AllowAnonymous]
     // Отправка данных
