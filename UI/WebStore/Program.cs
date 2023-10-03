@@ -12,6 +12,7 @@ using Serilog.Formatting.Json;
 
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Hubs;
 using WebStore.Infrastructure;
 using WebStore.Infrastructure.Conventions;
 using WebStore.Interfaces.Services;
@@ -192,6 +193,8 @@ builder.Services.AddControllersWithViews(opt =>
 
 services.AddAutoMapper(typeof(Program));
 
+services.AddSignalR();
+
 var app = builder.Build();
 
 //using (var scope = app.Services.CreateScope())
@@ -232,6 +235,8 @@ app.UseWelcomePage("/welcome");
 // создание маршрутов с настройками
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapHub<ChatHub>("/chat");
+
     endpoints.MapControllerRoute(
       name: "areas",
       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"

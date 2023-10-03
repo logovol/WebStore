@@ -8,7 +8,8 @@
     <title>@ViewBag.Title | E-Shopper</title>
     
     @*@Html.Partial("Partial/_Styles")*@
-    @await Html.PartialAsync("Partial/_Styles") 
+    @await Html.PartialAsync("Partial/_Styles")
+    @await RenderSectionAsync("Styles", false)
     @*<partial name="Partial/_Styles"/>*@
 
     <!--[if lt IE 9]>
@@ -25,6 +26,8 @@
     
     <partial name="Partial/_Footer"/>
     
-    <partial name="Partial/_Scripts"/>    
+    <partial name="Partial/_Scripts"/>
+    
+    @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
