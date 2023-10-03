@@ -17,14 +17,16 @@
 {
     <script src="~/lib/aspnet-signalr/signalr.min.js" asp-append-version="true"></script>
     <script>
-        const hub_url = "/chat";
+        $(function() {
+            const hub_url = "/chat";
 
-        const connection = new signalR.HubConnectionBuilder().withUrl(hub_url).build();
+            const connection = new signalR.HubConnectionBuilder().withUrl(hub_url).build();
 
-        connection.on("MessageToClient", data => $("#information-block").prepend($("<li><li/>").html(data)));
+            connection.on("MessageToClient", data => $("#information-block").prepend($("<li><li/>").html(data)));
 
-        $("#send-message").click(e => connection.invoke("SendMessage", $("#message").val()));
+            $("#send-message").click(e => connection.invoke("SendMessage", $("#message").val()));
 
-        connection.start();
+            connection.start();
+        })
     </script>
 }
